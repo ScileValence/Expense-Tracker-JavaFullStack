@@ -1,0 +1,43 @@
+🧾 CHANGELOG — Expense Tracker v1.2
+
+Release Date: October 24, 2025
+Version: v1.2
+Previous Version: v1.1
+
+🔧 Fixes
+
+Resolved duplicate entries issue in the categories table.
+
+Added SQL cleanup script to remove duplicates safely.
+
+Enforced unique category names constraint to prevent future duplication.
+
+General database consistency improvements and validation tweaks.
+
+💻 Backend
+
+Updated Spring Boot configuration to ensure proper category uniqueness handling.
+
+Added validation in Expense service layer to reject duplicate categories.
+
+Improved API error messages for category-related endpoints.
+
+🎨 Frontend
+
+Minor UI cleanup and code refactor for category dropdown.
+
+Improved data fetch logic to reflect updated backend validations.
+
+🗄️ Database
+
+Cleaned up duplicate data from categories table.
+
+Added unique index on categories(name) for data integrity.
+
+Verified relational consistency between expenses and categories.
+
+🧩 Technical Details
+
+MySQL schema updated (schema_v1.2.sql).
+
+Existing migrations compatible with v1.1 data.
