@@ -1,138 +1,104 @@
-🧩 CHANGELOG — Expense Tracker
-📦 Version 1.3 (Stable)
+⚙️ Expense Tracker v1.4 — UI Cleanup & Dark Mode Upgrade
+🚀 Version Summary
 
-Release Date: October 29, 2025
-Status: ✅ Stable (Full Stack Authenticated Build)
+A major frontend UI update introducing dark mode, smoother navigation, and overall polish across login, signup, and dashboard pages — improving both aesthetics and usability.
 
-🚀 Highlights
+🧠 Core Functional Updates
+🔄 Routing & Navigation
 
-The v1.3 release integrates JWT-based authentication, route consistency, and a unified visual interface.
-It builds upon the functionality of v1.2-auth-fixed, delivering a fully secure and cohesive full-stack system.
+Updated main.jsx:
 
-🆕 New Features
-🔐 Authentication & Security
+Added theme auto-detection (system preference + localStorage persistence).
 
-Implemented JWT-based user authentication using Spring Security + jjwt.
+Added routes for /login, /signup, /dashboard, /add, /list, /budget.
 
-Added secure Login (/api/auth/login) and Signup (/api/auth/register) endpoints.
+Removed redundant routes and unnecessary re-renders.
 
-Passwords now hashed using BCrypt before storage.
+Improved routing flow — redirects happen silently (no “Redirecting…” prompt).
 
-JWT validation added to backend for token verification on API calls.
+🔐 Login & Authentication
 
-Tokens stored and managed via localStorage on the frontend.
+Removed annoying “Redirecting to Dashboard” prompt.
 
-👤 User Flow Integration
+Login now directly navigates to /dashboard after token validation.
 
-Users can register → auto-login → access dashboard seamlessly.
+Session expiry now silently logs out and redirects to login.
 
-Logout mechanism implemented by clearing JWT token and redirecting to login.
+Signup page now includes a “Already have an account? Login” link.
 
-Added frontend route protection to redirect unauthenticated users.
+💅 UI/UX Enhancements
+🧭 Dashboard Page
 
-🧱 Backend Enhancements
+Cleaned UI, removed all debug logs.
 
-Added User.java entity with repository, service, and controller layers.
+Added a modern card grid layout:
 
-Integrated CustomUserDetailsService to load user credentials from DB.
+💰 Spent this month
 
-Configured SecurityConfig.java to permit /api/auth/** and prepare for role-based access.
+🎯 Budget limit
 
-Implemented JwtService.java for token creation and validation.
+📈 Usage percentage
 
-Fixed dependency configuration in pom.xml for Spring Boot 3.2.1 compatibility.
+Added progress bar with color-coded visual feedback (green/orange/red).
 
-🌐 Frontend Improvements
+Added Theme Toggle (🌓) button to header navigation.
 
-Axios Interceptor added to attach JWT token in headers automatically.
+Enhanced mobile responsiveness and padding for all layouts.
 
-Created new api.js file for centralized API calls.
+Logout button and navigation links are now styled consistently.
 
-Built new Login and Signup pages with clean forms and error handling.
+🌙 Light & Dark Mode
 
-Refined Dashboard, AddExpense, ExpenseList, and BudgetForm UI for consistent theme.
+Introduced full dual-theme support:
 
-Unified color palette (white cards, blue buttons, soft shadows).
+Detects user’s system theme automatically.
 
-🧭 Routing & Navigation
+User can manually toggle theme via the 🌓 button.
 
-Fixed route imports in main.jsx (pointed to /components/ folder).
+Choice persists across sessions via localStorage.
 
-Buttons in Dashboard (Add, All, Budget) now correctly link to functional pages.
+Smooth transitions between themes.
 
-Added “Back” navigation and cancel buttons in forms for smoother UX.
+🖋️ Global CSS (styles.css)
 
-Verified all pages (/dashboard, /add, /list, /budget) render proper components.
+Centralized typography with Inter / Segoe UI for clean, readable text.
 
-🎨 UI/UX Enhancements
+Added theme-based CSS variables for colors, backgrounds, and shadows.
 
-Clean, responsive card-based layout across all screens.
+Improved input focus, hover states, and consistent padding/margins.
 
-Added modern hover effects and rounded button design.
+Simplified animations and added fade-in transitions for cards.
 
-Consistent form design: uniform spacing, field focus effects, and responsive alignment.
+Mobile-friendly adjustments using responsive grid layouts.
 
-Added “Welcome, [username]” message in dashboard header.
+🧩 Code Maintenance
 
-Visual progress bar for monthly budget usage.
+Removed unused debugLog and console output from Dashboard.jsx.
 
-⚙️ Technical Improvements
+Refactored Dashboard fetch functions to async/await for clarity.
 
-Backend auto-creates schema with ddl-auto=update.
+Moved all token and theme logic to top-level (in main.jsx) for cleaner control.
 
-Added environment-friendly CORS mapping for frontend (http://localhost:5173).
+Removed optional unused imports and redundant states.
 
-Backend configuration now properly uses numeric JWT expiry (86400000).
+✅ Quality of Life Improvements
 
-Refactored code for cleaner separation between pages and components.
+Dashboard data loads seamlessly after login.
 
-🐞 Bug Fixes
+UI remains responsive and adaptive to smaller screen sizes.
 
-🧩 Fixed jwtExpiration property parsing issue in application.properties.
+No console or CORS warnings during API fetch.
 
-🧩 Fixed authentication mismatch (Spring unable to load users from DB).
+Consistent spacing, shadows, and colors throughout.
 
-🧩 Fixed route mismatch causing blank pages on “Add / All / Budget” navigation.
-
-🧩 Fixed redundant duplicate categories in MySQL schema.
-
-🧩 Fixed CORS issues between React and Spring Boot dev servers.
-
-📁 Updated Folder Structure
-frontend/
- ├── src/
- │   ├── pages/
- │   │   ├── Login.jsx
- │   │   ├── Signup.jsx
- │   │   └── Dashboard.jsx
- │   ├── components/
- │   │   ├── AddExpense.jsx
- │   │   ├── ExpenseList.jsx
- │   │   └── BudgetForm.jsx
- │   ├── api.js
- │   ├── main.jsx
- │   └── styles.css
-backend/
- ├── src/main/java/com/example/expensetracker/
- │   ├── controller/
- │   ├── model/
- │   ├── repository/
- │   ├── service/
- │   ├── config/
- │   └── ExpenseTrackerApplication.java
- ├── pom.xml
- └── application.properties
-
-🔮 Planned for v1.4
-Feature	Description
-👥 User-specific data	Each expense/budget linked to its user via JWT claims
-⏰ Token expiry & auto logout	Automatic session timeout handling
-🧭 Persistent navbar	Common header with navigation + logout
-📊 Charts & analytics	Category-wise spend graphs
-🐳 Docker deployment	Containerized backend, frontend, MySQL setup
-📱 Responsive layout	Optimized design for mobile & tablet screens
-🧩 Summary
-
-Expense Tracker v1.3 (Stable) is a complete, authenticated, and visually unified full-stack release.
-It establishes a strong security foundation, smooth user flow, and a consistent UI —
-paving the way for user-specific data, analytics, and deployment enhancements in upcoming versions.
+📦 Updated Files
+File	Purpose	Status
+main.jsx	Routing + Theme Init	✅ Updated
+Dashboard.jsx	UI Cleanup + Dark Mode + Cards	✅ Updated
+styles.css	Light/Dark mode + Responsive design	✅ Updated
+Login.jsx	Smooth navigation (coming next)	🔜 Planned
+Signup.jsx	Added “Go to Login” link (coming next)	🔜 Planned
+🔢 Version Summary
+Version	Date	Highlights
+v1.3	Oct 2025	Stable backend, working login/dashboard
+v1.4	Oct 2025	Full UI cleanup, Dark Mode, Modern styling
