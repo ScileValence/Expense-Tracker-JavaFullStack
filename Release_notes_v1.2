@@ -1,0 +1,43 @@
+📘 RELEASE NOTES — Expense Tracker v1.2
+Overview
+
+This release focuses on data integrity and reliability improvements.
+The primary issue of duplicated category entries has been fixed at both the database and application levels.
+All existing user data remains safe and compatible with this update.
+
+Key Improvements
+
+One-time cleanup script (cleanup_categories.sql) included for removing duplicates.
+
+Category insertion now strictly enforces uniqueness.
+
+Minor frontend and backend optimizations.
+
+Upgrade Instructions
+
+Backup your MySQL database (optional but recommended).
+
+Run:
+
+SOURCE cleanup_categories.sql;
+
+
+Restart backend with:
+
+mvn spring-boot:run
+
+
+Refresh the frontend:
+
+npm run dev
+
+
+Verify categories list — should contain unique items only.
+
+Next Planned Version (v1.3)
+
+Add monthly budget analytics with charts.
+
+Introduce category-based spending breakdown.
+
+Option to export data (CSV/PDF).

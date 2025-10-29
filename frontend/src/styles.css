@@ -1,0 +1,207 @@
+/* ===== Global reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  background: #f8f9fb;
+  color: #111;
+  min-height: 100vh;
+}
+
+/* ===== Layout Container ===== */
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+/* ===== Card Style ===== */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
+}
+
+.card.small {
+  text-align: center;
+}
+
+/* ===== Header ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  font-weight: 600;
+  color: #111;
+}
+
+.nav a {
+  color: #3b82f6;
+  text-decoration: none;
+  margin-left: 16px;
+  font-weight: 500;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Progress bar ===== */
+.progress {
+  background: #f0f0f0;
+  height: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress > div {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* ===== Table ===== */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.table th {
+  font-weight: 600;
+  color: #333;
+}
+
+.table tr:hover td {
+  background: #fafafa;
+}
+
+.small {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.card, .progress > div, a, button {
+  transition: all 0.25s ease;
+}
+
+a:hover {
+  color: #1d4ed8;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* ===== Form Elements ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row label {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+}
+
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* ===== Budget Page Enhancements ===== */
+.card small {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.card.small {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+form button:first-of-type {
+  background: #3b82f6;
+  color: #fff;
+}
+
+form button:first-of-type:hover {
+  background: #2563eb;
+}
+
+form button:last-of-type:hover {
+  background: #cbd5e1;
+}
+
+/* ===== Expense Table Enhancements ===== */
+.table th, .table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.table th {
+  color: #333;
+  font-weight: 600;
+}
+
+.table td {
+  color: #444;
+}
+
+.table tr:hover td {
+  background: #fafafa;
+}
+
+.table button {
+  transition: all 0.2s ease;
+}
+
+.table button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
