@@ -1,0 +1,138 @@
+🧩 CHANGELOG — Expense Tracker
+📦 Version 1.3 (Stable)
+
+Release Date: October 29, 2025
+Status: ✅ Stable (Full Stack Authenticated Build)
+
+🚀 Highlights
+
+The v1.3 release integrates JWT-based authentication, route consistency, and a unified visual interface.
+It builds upon the functionality of v1.2-auth-fixed, delivering a fully secure and cohesive full-stack system.
+
+🆕 New Features
+🔐 Authentication & Security
+
+Implemented JWT-based user authentication using Spring Security + jjwt.
+
+Added secure Login (/api/auth/login) and Signup (/api/auth/register) endpoints.
+
+Passwords now hashed using BCrypt before storage.
+
+JWT validation added to backend for token verification on API calls.
+
+Tokens stored and managed via localStorage on the frontend.
+
+👤 User Flow Integration
+
+Users can register → auto-login → access dashboard seamlessly.
+
+Logout mechanism implemented by clearing JWT token and redirecting to login.
+
+Added frontend route protection to redirect unauthenticated users.
+
+🧱 Backend Enhancements
+
+Added User.java entity with repository, service, and controller layers.
+
+Integrated CustomUserDetailsService to load user credentials from DB.
+
+Configured SecurityConfig.java to permit /api/auth/** and prepare for role-based access.
+
+Implemented JwtService.java for token creation and validation.
+
+Fixed dependency configuration in pom.xml for Spring Boot 3.2.1 compatibility.
+
+🌐 Frontend Improvements
+
+Axios Interceptor added to attach JWT token in headers automatically.
+
+Created new api.js file for centralized API calls.
+
+Built new Login and Signup pages with clean forms and error handling.
+
+Refined Dashboard, AddExpense, ExpenseList, and BudgetForm UI for consistent theme.
+
+Unified color palette (white cards, blue buttons, soft shadows).
+
+🧭 Routing & Navigation
+
+Fixed route imports in main.jsx (pointed to /components/ folder).
+
+Buttons in Dashboard (Add, All, Budget) now correctly link to functional pages.
+
+Added “Back” navigation and cancel buttons in forms for smoother UX.
+
+Verified all pages (/dashboard, /add, /list, /budget) render proper components.
+
+🎨 UI/UX Enhancements
+
+Clean, responsive card-based layout across all screens.
+
+Added modern hover effects and rounded button design.
+
+Consistent form design: uniform spacing, field focus effects, and responsive alignment.
+
+Added “Welcome, [username]” message in dashboard header.
+
+Visual progress bar for monthly budget usage.
+
+⚙️ Technical Improvements
+
+Backend auto-creates schema with ddl-auto=update.
+
+Added environment-friendly CORS mapping for frontend (http://localhost:5173).
+
+Backend configuration now properly uses numeric JWT expiry (86400000).
+
+Refactored code for cleaner separation between pages and components.
+
+🐞 Bug Fixes
+
+🧩 Fixed jwtExpiration property parsing issue in application.properties.
+
+🧩 Fixed authentication mismatch (Spring unable to load users from DB).
+
+🧩 Fixed route mismatch causing blank pages on “Add / All / Budget” navigation.
+
+🧩 Fixed redundant duplicate categories in MySQL schema.
+
+🧩 Fixed CORS issues between React and Spring Boot dev servers.
+
+📁 Updated Folder Structure
+frontend/
+ ├── src/
+ │   ├── pages/
+ │   │   ├── Login.jsx
+ │   │   ├── Signup.jsx
+ │   │   └── Dashboard.jsx
+ │   ├── components/
+ │   │   ├── AddExpense.jsx
+ │   │   ├── ExpenseList.jsx
+ │   │   └── BudgetForm.jsx
+ │   ├── api.js
+ │   ├── main.jsx
+ │   └── styles.css
+backend/
+ ├── src/main/java/com/example/expensetracker/
+ │   ├── controller/
+ │   ├── model/
+ │   ├── repository/
+ │   ├── service/
+ │   ├── config/
+ │   └── ExpenseTrackerApplication.java
+ ├── pom.xml
+ └── application.properties
+
+🔮 Planned for v1.4
+Feature	Description
+👥 User-specific data	Each expense/budget linked to its user via JWT claims
+⏰ Token expiry & auto logout	Automatic session timeout handling
+🧭 Persistent navbar	Common header with navigation + logout
+📊 Charts & analytics	Category-wise spend graphs
+🐳 Docker deployment	Containerized backend, frontend, MySQL setup
+📱 Responsive layout	Optimized design for mobile & tablet screens
+🧩 Summary
+
+Expense Tracker v1.3 (Stable) is a complete, authenticated, and visually unified full-stack release.
+It establishes a strong security foundation, smooth user flow, and a consistent UI —
+paving the way for user-specific data, analytics, and deployment enhancements in upcoming versions.

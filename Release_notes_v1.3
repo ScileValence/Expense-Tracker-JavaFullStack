@@ -1,0 +1,151 @@
+🧩 Expense Tracker — v1.3(Full Stack Release Notes)
+📅 Release Date
+
+October 29, 2025
+
+🧠 Overview
+
+This release marks a major enhancement of the Expense Tracker application, integrating JWT-based authentication into the stable v1.2 build.
+The system now supports secure login, signup, and session management, while preserving all existing UI and functional features from previous stable versions.
+
+🚀 Version Summary
+Version	Description	Status
+v1.0	Initial expense tracker prototype with static UI	✅ Completed
+v1.1	Added category management and improved layout	✅ Stable
+v1.2	Full expense and budget management with persistent database	✅ Stable
+v1.3-auth-fixed	Integrated JWT authentication, route protection, and UI unification	✅ Stable
+🖥️ Tech Stack
+
+Frontend: React 18, Vite, Axios, React Router v6
+Backend: Spring Boot 3.2.1, Spring Security, JPA, JWT (JJWT)
+Database: MySQL (via HikariCP connection pooling)
+Languages: Java 21, JavaScript (ES6+), CSS
+Build Tools: Maven, npm
+
+🔐 New Features in v1.3
+1. Secure JWT Authentication
+
+Added /api/auth/register and /api/auth/login endpoints.
+
+Users are now stored securely in the MySQL database with BCrypt password hashing.
+
+JWT tokens generated upon login and stored in browser localStorage.
+
+Backend endpoints protected and ready for role-based access (v1.3).
+
+2. Seamless Frontend Integration
+
+Login and Signup forms now communicate directly with backend APIs.
+
+Token automatically included in Axios requests via interceptors.
+
+Auto-redirect to Dashboard post successful authentication.
+
+Logout clears JWT and redirects to login.
+
+3. Consistent Modern UI
+
+Complete visual redesign with clean card-based layout and unified CSS.
+
+Dashboard, Add Expense, Budget, and Expense List pages now share consistent:
+
+Typography, padding, and color theme
+
+Button design with smooth hover states
+
+Responsive container and spacing
+
+Added Back buttons and contextual navigation between routes.
+
+4. Route Management
+
+Fixed routing structure:
+
+/dashboard — Main summary
+
+/add — Add or edit expenses
+
+/list — View all expenses
+
+/budget — Manage monthly budget
+
+Updated main.jsx to import components from /components/ folder.
+
+5. Improved Code Structure
+
+Clean separation of concerns:
+
+/pages/ — Authentication and Dashboard views
+
+/components/ — Functional modules (AddExpense, ExpenseList, BudgetForm)
+
+Added api.js (Axios base config with token injection).
+
+🧱 Backend Enhancements
+Component	Description
+User.java	Entity for registered users
+AuthController.java	Handles login & registration endpoints
+JwtService.java	Manages token generation and validation
+CustomUserDetailsService.java	Fetches user credentials for Spring Security
+SecurityConfig.java	Configures route permissions and password encoding
+application.properties	Includes DB config + JWT secret and expiry settings
+🧩 Frontend Improvements
+Page	Enhancements
+Login / Signup	JWT integration, input validation, redirect on success
+Dashboard	User greeting, budget progress bar, secure session validation
+Add Expense	Unified design, category fetch, edit support
+Expense List	Styled table, CRUD controls, responsive actions
+Budget Form	Monthly overview, input placeholders, auto-redirect
+🧪 Testing & Validation
+
+Verified end-to-end flow: register → login → add expense → set budget → view dashboard.
+
+Logout & re-login verified for token persistence.
+
+CORS tested for frontend origin http://localhost:5173.
+
+Database schema auto-updates with Hibernate (ddl-auto=update).
+
+🧰 Setup Instructions
+Backend
+cd backend
+mvn spring-boot:run
+
+
+Runs on http://localhost:8080
+
+Frontend
+cd frontend
+npm install
+npm run dev
+
+
+Runs on http://localhost:5173
+
+Credentials: Create a new account via /signup.
+
+🔮 Planned for v1.3
+
+Role-based JWT authorization (Admin/User)
+
+User-specific expense & budget data
+
+Logout and token expiry handling
+
+Persistent top navigation bar
+
+Dockerized build for full-stack deployment
+
+Optional user profile with avatar
+
+📦 Deliverables
+File/Folder	Description
+/backend	Complete Spring Boot backend
+/frontend	React + Vite UI with auth integration
+/db/schema.sql	MySQL schema & default categories
+/README.md	Documentation & setup guide
+✨ Release Summary
+
+"Expense Tracker v1.2-auth-fixed delivers a secure, stable, and unified full-stack experience.
+Users can now register, log in, and manage their expenses through a visually consistent and authenticated interface —
+laying the foundation for a fully personalized multi-user system in v1.3."

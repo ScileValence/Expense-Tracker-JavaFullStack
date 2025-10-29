@@ -1,0 +1,19 @@
+:root{
+  --bg:#f4f6f8;
+  --card:#fff;
+  --accent:#0b5fff;
+  --danger:#d9534f;
+  --warning:#f0ad4e;
+  --ok:#5cb85c;
+}
+body{ margin:0; font-family:Inter,Arial,Helvetica,sans-serif; background:var(--bg); color:#222;}
+.container{ max-width:1000px; margin:24px auto; padding:16px;}
+.card{ background:var(--card); padding:16px; border-radius:10px; box-shadow:0 6px 18px rgba(20,20,40,0.06); }
+.header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;}
+.nav a{ margin-right:12px; color:var(--accent); text-decoration:none;}
+.table{ width:100%; border-collapse:collapse; margin-top:12px;}
+.table th, .table td{ padding:8px 6px; border-bottom:1px solid #eee; text-align:left;}
+.form-row{ margin-bottom:10px;}
+.progress { height:18px; border-radius:9px; background:#eee; overflow:hidden;}
+.progress > div{ height:100%; transition: width 300ms ease; }
+.small{ font-size:0.9rem; color:#555 }
