@@ -59,46 +59,6 @@
 | **Auth** | ![JWT](https://img.shields.io/badge/-JWT-black?logo=jsonwebtokens&logoColor=white) ![BCrypt](https://img.shields.io/badge/-BCrypt-lightgrey.svg) |
 | **Build Tools** | Maven, Node.js |
 
----
-
-## 📁 Project Structure
-
-expense-tracker/
-│
-├── frontend/
-│ ├── src/
-│ │ ├── api/
-│ │ ├── pages/
-│ │ │ ├── Dashboard.jsx
-│ │ │ ├── AddExpense.jsx
-│ │ │ ├── ExpenseList.jsx
-│ │ │ ├── BudgetForm.jsx
-│ │ │ └── (EditExpense.jsx planned)
-│ │ ├── styles/
-│ │ │ ├── index.css
-│ │ │ └── styles.css
-│ │ └── main.jsx
-│ └── vite.config.js
-│
-├── backend/
-│ ├── src/main/java/com/example/expensetracker/
-│ │ ├── config/
-│ │ ├── controller/
-│ │ ├── model/
-│ │ ├── repository/
-│ │ ├── service/
-│ │ └── ExpenseTrackerApplication.java
-│ └── resources/
-│ ├── application.properties
-│ └── DataLoader.java
-│
-└── README.md
-
-yaml
-Copy code
-
----
-
 ## ⚙️ Installation Guide
 
 ### 🧩 Backend (Spring Boot)
