@@ -1,6 +1,6 @@
 # 💰 Expense Tracker  
 
-![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
 ![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20Vite-61DBFB.svg)
