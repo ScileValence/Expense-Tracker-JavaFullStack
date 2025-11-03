@@ -35,29 +35,45 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String token;
         final String username;
 
+        // No Authorization header → continue the chain
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         token = authHeader.substring(7);
-        username = jwtService.extractUsername(token);
 
+        try {
+            // Try extracting username from JWT
+            username = jwtService.extractUsername(token);
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            System.out.println("⚠️ [JwtAuthFilter] JWT expired: " + e.getMessage());
+            filterChain.doFilter(request, response);
+            return;
+        } catch (Exception e) {
+            System.out.println("❌ [JwtAuthFilter] Invalid JWT: " + e.getMessage());
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // Authenticate user if not already authenticated
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.loadUserByUsername(username);
 
-            if (userDetails != null) {
+            if (jwtService.isTokenValid(token)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
                                 null,
                                 userDetails.getAuthorities()
                         );
+
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
+        // Continue with filter chain
         filterChain.doFilter(request, response);
     }
 }

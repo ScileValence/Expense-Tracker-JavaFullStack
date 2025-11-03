@@ -12,6 +12,7 @@ import java.time.YearMonth;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -64,7 +65,7 @@ public class BudgetController {
         }
     }
 
-    // ✅ Get current user's budget for this month (with detailed debug)
+    // ✅ Get current user's budget for this month
     @GetMapping
     public Map<String, Object> getCurrentBudget(HttpServletRequest request) {
         try {
@@ -78,18 +79,21 @@ public class BudgetController {
             String monthKey = ym.toString();
             System.out.println("📅 [BudgetController] Fetching budget for user=" + user.getUsername() + ", month=" + monthKey);
 
-            // Fetch or create new budget
-            Budget budget = budgetService.findByUserAndMonth(user, monthKey)
-                    .orElseGet(() -> {
-                        System.out.println("⚠️ [BudgetController] No budget found, creating new default (0.0)");
-                        Budget newB = new Budget();
-                        newB.setUser(user);
-                        newB.setMonth(monthKey);
-                        newB.setLimitAmount(0.0);
-                        return budgetService.save(newB);
-                    });
+            Optional<Budget> budgetOpt = budgetService.findByUserAndMonth(user, monthKey);
+            Budget budget;
 
-            // Calculate total spent for this month
+            if (budgetOpt.isEmpty()) {
+                System.out.println("⚠️ [BudgetController] No budget found, creating default (limit 0.0)");
+                Budget newBudget = new Budget();
+                newBudget.setUser(user);
+                newBudget.setMonth(monthKey);
+                newBudget.setLimitAmount(0.0);
+                budget = budgetService.save(newBudget);
+            } else {
+                budget = budgetOpt.get();
+            }
+
+            // Calculate monthly spent
             LocalDate start = ym.atDay(1);
             LocalDate end = ym.atEndOfMonth();
             double spent = expenseRepository.findByDateBetween(start, end).stream()
@@ -112,51 +116,48 @@ public class BudgetController {
         }
     }
 
-    // ✅ Create a new budget
+    // ✅ Create or update monthly budget (ensures persistence)
     @PostMapping
-    public Budget setBudget(@RequestBody Budget b, HttpServletRequest request) {
+    public Budget setOrUpdateBudget(@RequestBody Budget b, HttpServletRequest request) {
         try {
             User user = getUserFromRequest(request);
             if (user == null) {
-                System.out.println("❌ [BudgetController] Cannot set budget — no user found");
+                System.out.println("❌ [BudgetController] Cannot save budget — no user found");
                 return null;
             }
 
             YearMonth ym = YearMonth.now();
-            b.setMonth(ym.toString());
-            b.setUser(user);
-            Budget saved = budgetService.save(b);
-            System.out.println("✅ [BudgetController] Budget saved for user=" + user.getUsername() + ", limit=" + b.getLimitAmount());
+            String monthKey = ym.toString();
+
+            Optional<Budget> existing = budgetService.findByUserAndMonth(user, monthKey);
+            Budget saved;
+
+            if (existing.isPresent()) {
+                Budget existingBudget = existing.get();
+                existingBudget.setLimitAmount(b.getLimitAmount());
+                saved = budgetService.save(existingBudget);
+                System.out.println("🟢 [BudgetController] Updated existing budget for user=" + user.getUsername()
+                        + ", month=" + monthKey + ", new limit=" + b.getLimitAmount());
+            } else {
+                b.setUser(user);
+                b.setMonth(monthKey);
+                saved = budgetService.save(b);
+                System.out.println("🟢 [BudgetController] Added new budget for user=" + user.getUsername()
+                        + ", month=" + monthKey + ", limit=" + b.getLimitAmount());
+            }
+
             return saved;
 
         } catch (Exception e) {
-            System.err.println("🔥 [BudgetController] Failed to set budget: " + e.getMessage());
+            System.err.println("🔥 [BudgetController] Failed to save/update budget: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
     }
 
-    // ✅ Update user's monthly budget
+    // ✅ Update budget (PUT alias)
     @PutMapping
     public Budget updateBudget(@RequestBody Budget b, HttpServletRequest request) {
-        try {
-            User user = getUserFromRequest(request);
-            if (user == null) {
-                System.out.println("❌ [BudgetController] Cannot update budget — no user found");
-                return null;
-            }
-
-            YearMonth ym = YearMonth.now();
-            b.setMonth(ym.toString());
-            b.setUser(user);
-            Budget updated = budgetService.save(b);
-            System.out.println("✅ [BudgetController] Budget updated for user=" + user.getUsername() + ", limit=" + b.getLimitAmount());
-            return updated;
-
-        } catch (Exception e) {
-            System.err.println("🔥 [BudgetController] Failed to update budget: " + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
+        return setOrUpdateBudget(b, request);
     }
 }
