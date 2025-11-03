@@ -1,111 +1,186 @@
-import React, { useEffect, useState } from 'react';
-import api from '../api';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import api from "../api";
+import { useNavigate } from "react-router-dom";
 
-// Utility: decode JWT payload
 function decodeToken(token) {
   try {
-    return JSON.parse(atob(token.split('.')[1]));
+    return JSON.parse(atob(token.split(".")[1]));
   } catch {
     return null;
   }
 }
 
 export default function BudgetForm() {
-  const [limit, setLimit] = useState('');
-  const [info, setInfo] = useState({ month: '', limit: 0, spent: 0 });
+  const [limit, setLimit] = useState("");
+  const [info, setInfo] = useState({ month: "", limit: 0, spent: 0 });
+  const [month, setMonth] = useState(
+    localStorage.getItem("selectedMonth") || new Date().toISOString().slice(0, 7)
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token || !decodeToken(token)) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
     fetchBudget();
-  }, [navigate]);
+  }, [month, navigate]);
 
   const fetchBudget = () => {
     api
-      .get('/budget')
-      .then(res => setInfo(res.data))
-      .catch(err => console.error(err));
+      .get(`/budget?month=${month}`)
+      .then((res) => {
+        setInfo(res.data || { month, limit: 0, spent: 0 });
+        setLimit(res.data?.limit ?? "");
+      })
+      .catch((err) => console.error("❌ Error fetching budget:", err));
   };
 
   const submit = (e) => {
     e.preventDefault();
-    const payload = { limitAmount: parseFloat(limit) };
-    const request = info.limit && info.limit > 0
-      ? api.put('/budget', payload)
-      : api.post('/budget', payload);
+    const payload = {
+      limitAmount: parseFloat(limit) || 0,
+      month: month, // ✅ Pass selected month in request body
+    };
 
-    request
-      .then(() => navigate('/dashboard'))
-      .catch(err => console.error(err));
+    api
+      .post(`/budget`, payload)
+      .then(() => {
+        alert(`✅ Budget for ${formattedMonth} saved successfully!`);
+        fetchBudget();
+      })
+      .catch((err) => console.error("❌ Error saving budget:", err));
   };
 
+  const formattedMonth = new Date(`${month}-01`).toLocaleString("default", {
+    month: "long",
+    year: "numeric",
+  });
+
   return (
-    <div className="container">
-      <div className="card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2>Set Monthly Budget</h2>
-          <button
-            type="button"
-            onClick={() => navigate('/dashboard')}
-            style={{
-              background: '#e5e7eb',
-              color: '#111',
-              border: 'none',
-              padding: '6px 12px',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '0.9rem'
+    <div className="container fade-in">
+      <div className="card" style={{ animation: "fadeIn 0.4s ease-in" }}>
+        {/* Header */}
+        <div className="header" style={{ marginBottom: "1rem" }}>
+          <h2 style={{ color: "var(--text-color)" }}>Set Monthly Budget</h2>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button
+              type="button"
+              onClick={() => navigate("/dashboard")}
+              style={{
+                background: "var(--card-bg)",
+                color: "var(--text-color)",
+                border: "1px solid var(--border-color)",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                cursor: "pointer",
+              }}
+            >
+              ← Back
+            </button>
+          </div>
+        </div>
+
+        {/* Month Selector */}
+        <div style={{ marginBottom: "1rem" }}>
+          <label className="small" style={{ display: "block", marginBottom: 6 }}>
+            Select Month
+          </label>
+          <input
+            type="month"
+            value={month}
+            onChange={(e) => {
+              const selected = e.target.value;
+              setMonth(selected);
+              localStorage.setItem("selectedMonth", selected);
             }}
-          >
-            ← Back
-          </button>
+            style={{
+              width: "100%",
+              padding: "10px",
+              borderRadius: "8px",
+              border: "1px solid var(--border-color)",
+              background: "var(--card-bg)",
+              color: "var(--text-color)",
+            }}
+          />
+          <div className="small" style={{ marginTop: "6px" }}>
+            📅 Selected month: <strong>{formattedMonth}</strong>
+          </div>
         </div>
 
-        <div className="small" style={{ marginBottom: 16 }}>
-          Current month: <strong>{info.month || '—'}</strong>
-        </div>
-
-        <form onSubmit={submit} style={{ marginTop: 8 }}>
-          <div className="form-row">
-            <label>Limit amount (₹)</label>
+        {/* Form Section */}
+        <form
+          onSubmit={submit}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            marginTop: "0.5rem",
+          }}
+        >
+          <div>
+            <label style={{ display: "block", fontWeight: 600 }}>
+              Budget Limit (₹)
+            </label>
             <input
               type="number"
               value={limit}
-              onChange={e => setLimit(e.target.value)}
-              placeholder={info.limit ? `Current: ₹${info.limit}` : 'Enter budget limit'}
+              onChange={(e) => setLimit(e.target.value)}
+              placeholder={
+                info.limit ? `Current: ₹${info.limit}` : "Enter budget limit"
+              }
               required
+              style={{
+                width: "100%",
+                padding: "10px",
+                borderRadius: "8px",
+                border: "1px solid var(--border-color)",
+                background: "var(--card-bg)",
+                color: "var(--text-color)",
+                transition: "border-color 0.3s ease",
+              }}
+              onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
+              onBlur={(e) => (e.target.style.borderColor = "var(--border-color)")}
             />
           </div>
 
-          <div style={{ display: 'flex', gap: 10, marginTop: 15 }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              marginTop: "10px",
+              justifyContent: "flex-end",
+            }}
+          >
             <button
               type="submit"
               style={{
-                background: '#3b82f6',
-                color: 'white',
-                border: 'none',
-                padding: '10px 20px',
-                borderRadius: '6px',
-                cursor: 'pointer'
+                background: "var(--accent)",
+                color: "#fff",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "background-color 0.3s ease",
               }}
+              onMouseEnter={(e) => (e.target.style.background = "#3b3eff")}
+              onMouseLeave={(e) => (e.target.style.background = "var(--accent)")}
             >
               Save Budget
             </button>
 
             <button
               type="button"
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate("/dashboard")}
               style={{
-                background: '#d1d5db',
-                border: 'none',
-                padding: '10px 20px',
-                borderRadius: '6px',
-                cursor: 'pointer'
+                background: "var(--border-color)",
+                color: "var(--text-color)",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                cursor: "pointer",
               }}
             >
               Cancel
@@ -113,13 +188,32 @@ export default function BudgetForm() {
           </div>
         </form>
 
+        {/* Budget Overview Card */}
         {info.limit > 0 && (
-          <div style={{ marginTop: 20 }}>
-            <div style={{ fontWeight: 500, marginBottom: 6 }}>Current Budget Overview:</div>
-            <div className="card small" style={{ background: '#f9fafb' }}>
-              <div>💰 Limit: ₹{info.limit}</div>
-              <div>💸 Spent: ₹{info.spent}</div>
-              <div>🟢 Remaining: ₹{(info.limit - info.spent).toFixed(2)}</div>
+          <div
+            style={{
+              marginTop: "2rem",
+              background: "var(--bg-color)",
+              padding: "1rem",
+              borderRadius: "10px",
+              border: "1px solid var(--border-color)",
+            }}
+          >
+            <div
+              style={{
+                fontWeight: 600,
+                marginBottom: "0.5rem",
+                color: "var(--text-color)",
+              }}
+            >
+              Current Budget Overview
+            </div>
+            <div className="small">
+              💰 Limit: ₹{info.limit}
+              <br />
+              💸 Spent: ₹{info.spent}
+              <br />
+              🟢 Remaining: ₹{(info.limit - info.spent).toFixed(2)}
             </div>
           </div>
         )}

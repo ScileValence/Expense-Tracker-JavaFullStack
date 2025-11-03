@@ -2,6 +2,9 @@ package com.example.expensetracker.config;
 
 import com.example.expensetracker.service.JwtService;
 import com.example.expensetracker.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +37,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // ✅ Allow unauthenticated access only to /auth endpoints
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/analytics/**").permitAll()
+
                         
                         // ✅ Everything else must be authenticated
                         .requestMatchers("/api/**").authenticated()
@@ -43,8 +47,18 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 // ✅ Add JWT validation filter
-                .addFilterBefore(new JwtAuthFilter(jwtService, userService),
-                        UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthFilter(jwtService, userService) {
+                @Override
+                protected boolean shouldNotFilter(
+                        @org.springframework.lang.NonNull jakarta.servlet.http.HttpServletRequest request
+                    ) {
+                        String path = request.getServletPath();
+                        return path.startsWith("/api/auth/") || path.startsWith("/api/analytics/");
+                    }
+                }, UsernamePasswordAuthenticationFilter.class);
+
+
+
 
         return http.build();
     }

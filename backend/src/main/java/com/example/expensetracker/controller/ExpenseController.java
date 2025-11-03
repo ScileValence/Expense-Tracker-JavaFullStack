@@ -48,14 +48,25 @@ public class ExpenseController {
         return userRepository.findByUsername(username).orElse(null);
     }
 
+    // ✅ Get all expenses for a specific month (or current if not provided)
     @GetMapping
-    public List<Expense> allForCurrentMonth(HttpServletRequest request) {
+    public List<Expense> getExpenses(
+            @RequestParam(required = false) String month,
+            HttpServletRequest request
+    ) {
         User user = getUserFromRequest(request);
         if (user == null) return List.of();
 
-        YearMonth ym = YearMonth.now();
+        YearMonth ym;
+        try {
+            ym = (month != null && !month.isBlank()) ? YearMonth.parse(month) : YearMonth.now();
+        } catch (Exception e) {
+            ym = YearMonth.now();
+        }
+
         LocalDate start = ym.atDay(1);
         LocalDate end = ym.atEndOfMonth();
+
         return expenseService.allForMonth(user, start, end);
     }
 
@@ -86,7 +97,7 @@ public class ExpenseController {
         if (oe.isEmpty()) return null;
 
         Expense e = oe.get();
-        if (!e.getUser().getId().equals(user.getId())) return null; // Prevent editing other users' data
+        if (!e.getUser().getId().equals(user.getId())) return null; // security
 
         e.setAmount(dto.getAmount());
         e.setDescription(dto.getDescription());
@@ -112,10 +123,11 @@ public class ExpenseController {
         }
     }
 
+    // ✅ DTO class
     public static class ExpenseDTO {
         private Double amount;
         private String description;
-        private java.time.LocalDate date;
+        private LocalDate date;
         private Long categoryId;
 
         public Double getAmount() { return amount; }
@@ -124,8 +136,8 @@ public class ExpenseController {
         public String getDescription() { return description; }
         public void setDescription(String description) { this.description = description; }
 
-        public java.time.LocalDate getDate() { return date; }
-        public void setDate(java.time.LocalDate date) { this.date = date; }
+        public LocalDate getDate() { return date; }
+        public void setDate(LocalDate date) { this.date = date; }
 
         public Long getCategoryId() { return categoryId; }
         public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
