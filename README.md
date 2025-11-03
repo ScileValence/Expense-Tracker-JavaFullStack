@@ -1,86 +1,194 @@
-# 📘 Expense Tracker — Changelog
+# 💰 Expense Tracker  
 
-All notable changes to this project will be documented in this file.  
-This project follows **semantic versioning**: `MAJOR.MINOR.PATCH`.
+![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)
+![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
+![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
+![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20Vite-61DBFB.svg)
+![Backend](https://img.shields.io/badge/backend-Spring%20Boot-6DB33F.svg)
+![Database](https://img.shields.io/badge/database-MySQL-4479A1.svg)
 
----
-
-## [v1.3.0] — 2025-11-03
-### ✨ Added
-- Introduced **month-wise analytics dashboard**:
-  - Category-wise spending (Pie Chart)
-  - Monthly summary (Bar Chart)
-  - Daily spending trend (Line Chart)
-- Implemented **month selector** synced across dashboard, expense list, and budget pages.
-- Added **global month persistence** via `localStorage` (`selectedMonth`).
-- Introduced **dynamic filters** — analytics, budget, and expense lists now react to month changes instantly.
-- Enhanced UI with **collapsible Analytics section** (auto-expanded by default).
-- Dark/light theme is now **fully adaptive** across dashboard components.
-
-### 🧠 Improved
-- `Dashboard.jsx` now integrates analytics and monthly budget tracking in one view.
-- All chart visualizations updated to use **Recharts** with responsive design.
-- **BudgetForm** now saves and updates budgets **month-wise** instead of globally.
-- Added real-time sync between dashboard and budget pages using `window.storage` events.
-- Expense list now dynamically filters **by selected month**.
-
-### 🐞 Fixed
-- Blank charts issue when switching months.
-- JWT 403 forbidden errors when fetching analytics.
-- Global budget override bug (each month now stores its own budget).
-- Data sync bug when changing months across multiple tabs.
-- Category duplication and orphaned data edge cases in the database.
+> A full-stack personal finance management web app — track expenses, manage monthly budgets, and gain visual spending insights.  
+> Built with **React (Vite)** + **Spring Boot** + **MySQL**, featuring secure JWT authentication.
 
 ---
 
-## [v1.2.0] — 2025-10-29
-### ✨ Added
-- **JWT authentication & authorization** layer (Spring Security).
-- Backend routes now protected under `/api/**`.
-- Implemented **User isolation** — all expenses and budgets are user-specific.
-- Added `User`, `Expense`, `Budget`, and `Category` models with JPA mappings.
-- Created **BudgetController**, **ExpenseController**, and **AnalyticsController**.
-- Automatic default category loader (`DataLoader.java`).
+## 🌟 Features Overview
 
-### 🧠 Improved
-- SecurityConfig updated to allow `/api/auth/**` public routes.
-- Password encryption using **BCrypt**.
-- JWT verification via `JwtAuthFilter`.
-- API refactored for consistent JSON responses and debugging logs.
+### 🔐 User & Authentication
+- Secure **JWT-based login/signup**
+- Stateless sessions via Spring Security
+- Passwords hashed with **BCrypt**
+- User data is **completely isolated**
 
-### 🐞 Fixed
-- Duplicate budget and category entries on restart.
-- Cross-origin (CORS) issue between frontend (Vite) and backend (Spring Boot).
-- Token expiry and invalid token handling.
+### 💸 Expense Management
+- Add, edit, delete, and view expenses
+- Category-based expense classification
+- **Month-wise filtering**
+- Fully responsive data table view
 
----
+### 🎯 Budget Management
+- Set **monthly budgets**
+- Auto-calculates spent, remaining, and usage %
+- Visual progress tracking
+- No data overlap between months
 
-## [v1.1.0] — 2025-10-15
-### ✨ Added
-- Complete **React frontend** (Vite + Axios).
-- Pages: Login, Signup, Dashboard, AddExpense, ExpenseList, and BudgetForm.
-- Implemented **light/dark theme toggle**.
-- Added **responsive layout** for mobile and desktop.
+### 📊 Analytics Dashboard
+- Integrated directly into the main dashboard
+- Charts powered by **Recharts**
+  - 🥧 Category-wise Spending (Pie Chart)
+  - 📅 Daily Spending (Line Chart)
+  - 📈 Monthly Summary (Bar Chart)
+- Global month selector — updates analytics and expense lists instantly
+- Fully responsive, adaptive for **light/dark themes**
 
-### 🧠 Improved
-- Dashboard design modernized with cards, metrics, and minimal UI.
-- Better routing and protected page logic.
-
----
-
-## [v1.0.0] — 2025-09-28
-### 🎉 Initial Release
-- Core **Expense Tracker backend** setup with Spring Boot + MySQL.
-- CRUD APIs for `Expense`, `Category`, and `Budget`.
-- Basic React frontend integration.
-- DataLoader creates default categories (`Food`, `Rent`, `Utilities`, etc.)
-- Deployed basic working prototype with REST API connectivity.
+### 🎨 UI/UX
+- Modern, minimal dashboard layout  
+- Adaptive **light/dark mode toggle**
+- Smooth transitions and collapsible sections
+- Optimized for mobile and desktop screens
 
 ---
 
-### 🧩 Contributors
-- **Aashirwad Pradhan** — Full-stack development, analytics integration, and design optimization.
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-------------|
+| **Frontend** | ![React](https://img.shields.io/badge/-React-61DBFB?logo=react&logoColor=white) ![Vite](https://img.shields.io/badge/-Vite-646CFF?logo=vite&logoColor=white) ![Recharts](https://img.shields.io/badge/-Recharts-FF6384?logo=recharts&logoColor=white) |
+| **Backend** | ![Spring Boot](https://img.shields.io/badge/-Spring%20Boot-6DB33F?logo=springboot&logoColor=white) ![Spring Security](https://img.shields.io/badge/-Spring%20Security-4DB33D?logo=springsecurity&logoColor=white) |
+| **Database** | ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=mysql&logoColor=white) |
+| **Auth** | ![JWT](https://img.shields.io/badge/-JWT-black?logo=jsonwebtokens&logoColor=white) ![BCrypt](https://img.shields.io/badge/-BCrypt-lightgrey.svg) |
+| **Build Tools** | Maven, Node.js |
 
 ---
 
-📅 *Last updated: November 3, 2025*
+## 📁 Project Structure
+
+expense-tracker/
+│
+├── frontend/
+│ ├── src/
+│ │ ├── api/
+│ │ ├── pages/
+│ │ │ ├── Dashboard.jsx
+│ │ │ ├── AddExpense.jsx
+│ │ │ ├── ExpenseList.jsx
+│ │ │ ├── BudgetForm.jsx
+│ │ │ └── (EditExpense.jsx planned)
+│ │ ├── styles/
+│ │ │ ├── index.css
+│ │ │ └── styles.css
+│ │ └── main.jsx
+│ └── vite.config.js
+│
+├── backend/
+│ ├── src/main/java/com/example/expensetracker/
+│ │ ├── config/
+│ │ ├── controller/
+│ │ ├── model/
+│ │ ├── repository/
+│ │ ├── service/
+│ │ └── ExpenseTrackerApplication.java
+│ └── resources/
+│ ├── application.properties
+│ └── DataLoader.java
+│
+└── README.md
+
+yaml
+Copy code
+
+---
+
+## ⚙️ Installation Guide
+
+### 🧩 Backend (Spring Boot)
+```bash
+# Navigate to backend directory
+cd backend
+
+# Update credentials in application.properties
+spring.datasource.username=root
+spring.datasource.password=root
+
+# Run Spring Boot
+mvn spring-boot:run
+Backend URL:
+👉 http://localhost:8080
+
+💻 Frontend (React + Vite)
+bash
+Copy code
+# Navigate to frontend
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start Vite server
+npm run dev
+Frontend URL:
+👉 http://localhost:5173
+
+🔑 Backend Configuration (application.properties)
+properties
+Copy code
+spring.datasource.url=jdbc:mysql://localhost:3306/expense_tracker
+spring.datasource.username=root
+spring.datasource.password=root
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+server.port=8080
+
+jwt.secret=U3VwZXJTZWNyZXRLZXlTdHJpbmctMzJCeXRlcwAAAAAAAAAA
+jwt.expiration=86400000
+🧠 API Summary
+Endpoint	Method	Description
+/api/auth/register	POST	Register user
+/api/auth/login	POST	Authenticate user & return JWT
+/api/expenses	GET / POST / PUT / DELETE	Manage expenses
+/api/categories	GET	Fetch all categories
+/api/budget	GET / POST / PUT	Get or update monthly budget
+/api/analytics/*	GET	Spending analytics & chart data
+
+📊 Dashboard Overview
+Section	Description
+Overview Cards	Displays total spent, budget, and usage %
+Progress Bar	Visual indicator of monthly budget utilization
+Analytics Charts	Recharts-powered insights (category, daily, monthly)
+Expense Table	Filtered by selected month for quick review
+
+🧩 Notable Highlights
+🔄 Real-time global month sync via localStorage and browser events
+
+🧠 Intelligent JWT validation (auto-logout on expiry)
+
+💡 Dynamic theming across all components
+
+📈 Data-driven visual analytics
+
+🧹 Automatic duplicate cleanup for budgets/categories
+
+🧾 Changelog
+See CHANGELOG.md for detailed version updates.
+Current Version: v1.3.0 (November 2025)
+
+🧠 Future Enhancements
+Expense editing & deletion UI
+
+Report export (CSV / PDF)
+
+Category-based budget limits
+
+AI-powered spending predictions
+
+Email notifications on overspending
+
+👨‍💻 Author
+Aashirwad Pradhan
+🎓 MCA Student, Sapthagiri NPS University
+💼 Full-stack Developer | React + Spring Boot + MySQL
+📅 Last Updated: November 3, 2025
+
+🪪 License
+This project is licensed under the MIT License.
+You’re free to use, modify, and distribute this software as long as proper credit is given.
