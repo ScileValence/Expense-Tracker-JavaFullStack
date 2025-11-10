@@ -140,22 +140,10 @@ Release Date: November 10, 2025
 
 📱 Enhanced mobile UI
 
-## 📸 Screenshots
+📸 Screenshots
+Interface previews of Phainance — responsive, elegant, and data-driven.
 
-> Visual previews of **Phainance**’s interface and key pages.
-
-| Dashboard | Add Expense | Analytics |
-|------------|--------------|------------|
-| ![Dashboard](https://github.com/user-attachments/assets/48a92308-dbe6-4393-97b4-3f04b1b8b37a) | ![Add Expense](https://github.com/user-attachments/assets/d596e1b6-e0e7-4192-bca3-e5e9fce5cbb5) | ![Analytics](https://github.com/user-attachments/assets/06382216-0348-4b08-88ea-6b3e9e74d2ca) |
-
-| Expense List | Budget Tracker | Login / Signup |
-|---------------|----------------|----------------|
-| ![Expense List](https://github.com/user-attachments/assets/0848c92f-d494-4830-8908-4c03f9c26464) | ![Budget](https://github.com/user-attachments/assets/9868b44d-9e81-4ae7-a502-d54b9093b7ae) | ![Login/Signup](https://github.com/user-attachments/assets/85573156-6139-4cb4-b5e2-a649deaa1d39) |
-
-Dashboard	Add Expense	Analytics
-
-Expense List	Budget Tracker	Login / Signup
-
+<table> <tr> <td><img src="https://github.com/user-attachments/assets/48a92308-dbe6-4393-97b4-3f04b1b8b37a" width="320"/></td> <td><img src="https://github.com/user-attachments/assets/d596e1b6-e0e7-4192-bca3-e5e9fce5cbb5" width="320"/></td> <td><img src="https://github.com/user-attachments/assets/06382216-0348-4b08-88ea-6b3e9e74d2ca" width="320"/></td> </tr> <tr> <td><b>Dashboard</b></td> <td><b>Add Expense</b></td> <td><b>Analytics</b></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/0848c92f-d494-4830-8908-4c03f9c26464" width="320"/></td> <td><img src="https://github.com/user-attachments/assets/9868b44d-9e81-4ae7-a502-d54b9093b7ae" width="320"/></td> <td><img src="https://github.com/user-attachments/assets/85573156-6139-4cb4-b5e2-a649deaa1d39" width="320"/></td> </tr> <tr> <td><b>Expense List</b></td> <td><b>Budget Tracker</b></td> <td><b>Login / Signup</b></td> </tr> </table>
 👨‍💻 Author
 Aashirwad Pradhan
 🎓 MCA Student — Sapthagiri NPS University
