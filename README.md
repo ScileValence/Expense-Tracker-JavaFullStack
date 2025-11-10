@@ -1,3 +1,4 @@
+<img width="2774" height="1482" alt="image_2025-11-10_143629676" src="https://github.com/user-attachments/assets/0848c92f-d494-4830-8908-4c03f9c26464" />
 # 💜 Phainance — Smart Expense Tracker  
 
 ![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)
@@ -142,7 +143,7 @@ Release Date: November 10, 2025
 
 📸 Screenshots
 Below are sample previews. Replace with your own screenshots when deploying.
-
+https://github.com/user-attachments/assets/0848c92f-d494-4830-8908-4c03f9c26464
 Dashboard	Add Expense	Analytics
 
 Expense List	Budget Tracker	Login / Signup
