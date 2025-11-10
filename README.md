@@ -140,11 +140,42 @@ Release Date: November 10, 2025
 
 📱 Enhanced mobile UI
 
-📸 Screenshots
-Interface previews of Phainance — responsive, elegant, and data-driven.
+## 📸 Screenshots  
 
-<table> <tr> <td><img src="https://github.com/user-atta<img width="2788" height="1490" alt="login" src="https://github.com/user-attachments/assets/61d9878d-6003-4c41-b46c-fac208fb19e2" />
-chments/assets/48a92308-dbe6-4393-97b4-3f04b1b8b37a" width="320"/></td> <td><img src="https://github.com/user-attachments/assets/d596e1b6-e0e7-4192-bca3-e5e9fce5cbb5" width="320"/></td> <td><img src="https://github.com/user-attachments/assets/06382216-0348-4b08-88ea-6b3e9e74d2ca" width="320"/></td> </tr> <tr> <td><b>Dashboard</b></td> <td><b>Add Expense</b></td> <td><b>Analytics</b></td> </tr> <tr> <td><img src="https://github.com/user-attachments/assets/0848c92f-d494-4830-8908-4c03f9c26464" width="320"/></td> <td><img src="https://github.com/user-attachments/assets/9868b44d-9e81-4ae7-a502-d54b9093b7ae" width="320"/></td> <td><img src="https://github.com/user-attachments/assets/85573156-6139-4cb4-b5e2-a649deaa1d39" width="320"/></td> </tr> <tr> <td><b>Expense List</b></td> <td><b>Budget Tracker</b></td> <td><b>Login / Signup</b></td> </tr> </table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/89de6b80-ae86-4987-bf95-99828e35318b" alt="Dashboard" width="320"/>
+      <br/><b>Dashboard</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/a8d57ca2-0c78-41c9-9dd0-ed257c298e22" alt="Add Expense" width="320"/>
+      <br/><b>Add Expense</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/27a55afe-9eb8-4135-9070-be640eb56de0" alt="Analytics" width="320"/>
+      <br/><b>Analytics</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/a8d13d48-e4b0-4018-95df-d535ad2ee5e7" alt="Budget Tracker" width="320"/>
+      <br/><b>Budget Tracker</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/a598fabe-28a7-436a-aad3-7b7355ad9537" alt="Login" width="320"/>
+      <br/><b>Login</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/6b06afd0-be56-4e85-b650-cf745d0ccdf8" alt="Signup" width="320"/>
+      <br/><b>Signup</b>
+    </td>
+  </tr>
+</table>
+
+
+
+
 👨‍💻 Author
 Aashirwad Pradhan
 🎓 MCA Student — Sapthagiri NPS University
