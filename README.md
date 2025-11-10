@@ -7,7 +7,7 @@
 ![Backend](https://img.shields.io/badge/backend-Spring%20Boot-6DB33F.svg)
 ![Database](https://img.shields.io/badge/database-MySQL-4479A1.svg)
 
-> **Phainance** is a full-stack personal finance web application designed to help users manage their expenses, budgets, and savings more effectively — all within a clean, elegant, and responsive interface.  
+> **Phainance** is a full-stack personal finance web application designed to help users manage their expenses, budgets, and savings effectively — all within a clean, elegant, and responsive interface.  
 > Built using **React (Vite)** + **Spring Boot** + **MySQL**, secured with **JWT authentication**, and powered by **Recharts analytics** and **Toast notifications**.
 
 ---
@@ -23,29 +23,28 @@
 ### 💸 Expense Management  
 - Add, edit, and delete expenses directly on the same page  
 - Inline editable table rows  
-- Categorize expenses with real-time category updates  
-- Smooth animations and responsive UI  
+- Categorize expenses with real-time updates  
+- Smooth animations and responsive layout  
 
 ### 🎯 Budget Management  
 - Set and manage **monthly budgets**  
-- Automatic spent/remaining calculations  
-- Real-time progress display with visual bar  
+- Auto-calculate spent, remaining, and usage %  
 - Persistent month tracking via localStorage  
+- Visual progress indicators  
 
 ### 📊 Analytics Dashboard  
-- **Category-wise breakdown (Pie Chart)**  
-- **Daily spending trend (Line Chart)**  
-- Fully responsive Recharts visualizations  
-- Optimized chart resizing to prevent cutoff issues  
-- Toggleable analytics visibility  
+- Category-wise breakdown (**Pie Chart**)  
+- Daily spending trend (**Line Chart**)  
+- Fully responsive Recharts visualization  
+- Optimized layout to prevent chart clipping  
+- Toggle analytics visibility on demand  
 
 ### 🔔 UI & UX Enhancements  
-- Clean, modern **lavender-white gradient** interface  
-- **Rounded toast notifications** for actions (add, edit, delete, save)  
-- Smooth entrance animations for all cards & forms  
-- Refined layout spacing for improved readability  
-- **Dune-inspired background** for authentication pages  
-- Centered “Add Expense” and “Budget” layouts for professional alignment  
+- Modern **lavender-white gradient** design  
+- **Rounded toast notifications** with gradient backgrounds  
+- Soft fade and card entrance animations  
+- Centered, clean layout for Add Expense and Budget pages  
+- New **dune-inspired background** for login/signup  
 
 ---
 
@@ -65,31 +64,22 @@
 
 ### 🧩 Backend (Spring Boot)
 ```bash
-# Navigate to backend directory
 cd backend
-
 # Update credentials in application.properties
 spring.datasource.username=root
 spring.datasource.password=root
 
-# Run Spring Boot server
+# Run backend
 mvn spring-boot:run
-Backend URL:
-👉 http://localhost:8080
+Backend URL: 👉 http://localhost:8080
 
 💻 Frontend (React + Vite)
 bash
 Copy code
-# Navigate to frontend directory
 cd frontend
-
-# Install dependencies
 npm install
-
-# Start Vite server
 npm run dev
-Frontend URL:
-👉 http://localhost:5173
+Frontend URL: 👉 http://localhost:5173
 
 🔑 Backend Configuration (application.properties)
 properties
@@ -105,51 +95,57 @@ jwt.secret=U3VwZXJTZWNyZXRLZXlTdHJpbmctMzJCeXRlcwAAAAAAAAAA
 jwt.expiration=86400000
 🧠 API Summary
 Endpoint	Method	Description
-/api/auth/register	POST	Register new user
+/api/auth/register	POST	Register a new user
 /api/auth/login	POST	Authenticate user & return JWT
 /api/expenses	GET / POST / PUT / DELETE	Manage expenses
 /api/categories	GET	Fetch all categories
 /api/budget	GET / POST / PUT	Get or update monthly budget
-/api/analytics/*	GET	Fetch analytics data
+/api/analytics/*	GET	Retrieve analytics data
 
 📊 Dashboard Overview
 Section	Description
-Overview Cards	Displays total spent, budget, and remaining
-Progress Bar	Visual representation of budget usage
-Analytics Charts	Dynamic category & daily spending data
-Expense Table	Filtered by selected month
-Global Month Selector	Syncs across dashboard & budget pages
+Overview Cards	Shows total spent, budget, and remaining
+Progress Bar	Visual indicator of monthly usage
+Analytics Charts	Dynamic data visualization (Pie + Line)
+Expense Table	Month-filtered editable list
+Global Month Selector	Syncs data across dashboard and budget
 
 ✨ Notable Highlights
-🔄 Global month synchronization via localStorage & browser events
+🔄 Global month synchronization via localStorage
 
-🔔 Rounded toast notifications for all key actions
+🔔 Rounded Toast Notifications for all user actions
 
-💡 Dynamic theming (Dark/Light) with smooth transitions
+🌗 Light/Dark Theme Toggle with smooth transitions
 
-🧠 Intelligent JWT validation for secure sessions
+🧠 Intelligent JWT handling for session management
 
-🧹 Duplicate prevention in budgets and categories
+💡 Unified animations and consistent typography
 
-🧾 Soft animations for card entrances and page loads
+🧾 Refined spacing, color palette, and modern layout
 
 🧾 Changelog
-Version	Date	Highlights
-v1.6.0	Nov 2025	Added notifications, unified animations, dune background UI
-v1.5.0	Oct 2025	Added analytics dashboard, budget tracking
-v1.3.0	Sept 2025	JWT auth + MySQL integration
-v1.0.0	Aug 2025	Initial release with expense tracking
+See full details in CHANGELOG.md
+
+Current Version: v1.6.0
+Release Date: November 10, 2025
 
 🧠 Future Enhancements
-CSV / PDF report export
+📤 Export reports to CSV / PDF
 
-Category-based budget limits
+💰 Category-based budget limits
 
-Multi-user shared analytics
+🧠 AI-driven spending insights
 
-Spending insights using ML
+📬 Email notifications for overspending
 
-Email alerts for overspending
+📱 Enhanced mobile UI
+
+📸 Screenshots
+Below are sample previews. Replace with your own screenshots when deploying.
+
+Dashboard	Add Expense	Analytics
+
+Expense List	Budget Tracker	Login / Signup
 
 👨‍💻 Author
 Aashirwad Pradhan
@@ -159,6 +155,6 @@ Aashirwad Pradhan
 
 🪪 License
 This project is licensed under the MIT License.
-You’re free to use, modify, and distribute this software with attribution.
+You’re free to use, modify, and distribute it with proper attribution.
 
 💜 Phainance — Because managing your money should feel effortless.
