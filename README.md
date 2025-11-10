@@ -141,10 +141,9 @@ Release Date: November 10, 2025
 
 📸 Screenshots
 <table align="center"> <tr> <td align="center"> <img src="https://github.com/user-attachments/assets/89de6b80-ae86-4987-bf95-99828e35318b" alt="Dashboard" width="320"/> <br/><b>Dashboard</b> </td> <td align="center"> <img src="https://github.com/user-attachments/assets/a8d57ca2-0c78-41c9-9dd0-ed257c298e22" alt="Add Expense" width="320"/> <br/><b>Add Expense</b> </td> <td align="center"> <img src="https://github.com/user-attachments/assets/27a55afe-9eb8-4135-9070-be640eb56de0" alt="Analytics" width="320"/> <br/><b>Analytics</b> </td> </tr> <tr> <td align="center"> <img src="https://github.com/user-attachments/assets/a8d13d48-e4b0-4018-95df-d535ad2ee5e7" alt="Budget Tracker" width="320"/> <br/><b>Budget Tracker</b> </td> <td align="center"> <img src="https://github.com/user-attachments/assets/a598fabe-28a7-436a-aad3-7b7355ad9537" alt="Login" width="320"/> <br/><b>Login</b> </td> <td align="center"> <img src="https://github.com/user-attachments/assets/6b06afd0-be56-4e85-b650-cf745d0ccdf8" alt="Signup" width="320"/> <br/><b>Signup</b> </td> </tr> </table>
+
 👨‍💻 Author
-Aashirwad Pradhan
-🎓 MCA Student — Sapthagiri NPS University
-💼 Full-Stack Developer | React + Spring Boot + MySQL
+Aashirwad Asmit Pradhan
 📅 Last Updated: November 10, 2025
 
 🪪 License
