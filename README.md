@@ -62,7 +62,7 @@
 ## ⚙️ Installation Guide  
 
 ### 🧩 Backend (Spring Boot)
-```bash
+
 cd backend
 
 # Update credentials in application.properties
