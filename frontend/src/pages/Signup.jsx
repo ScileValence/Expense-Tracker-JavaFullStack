@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import api from "../api/axios";
 import { useNavigate, Link } from "react-router-dom";
+import "../styles/auth.css";
+import dunesImg from "../assets/dunes.jpg"; // ✅ use same image
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -23,20 +25,26 @@ export default function Signup() {
         setTimeout(() => navigate("/dashboard", { replace: true }), 1000);
       }
     } catch (err) {
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("Something went wrong. Please try again.");
-      }
+      setError(err.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className="auth-layout">
+      <div className="auth-image">
+        <img src={dunesImg} alt="Background dunes" />
+        <div className="overlay-text">
+          <h1>Phainance</h1>
+          <p>Smart way to manage your finances</p>
+        </div>
+      </div>
+
+      <div className="auth-form-card">
         <h2>Create Account</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {success && <p style={{ color: "green" }}>{success}</p>}
+        <p className="small-text">Join us to start tracking your expenses</p>
+
+        {error && <p className="error-msg">{error}</p>}
+        {success && <p className="success-msg">{success}</p>}
 
         <form onSubmit={handleSubmit}>
           <input
@@ -60,10 +68,10 @@ export default function Signup() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Sign Up</button>
+          <button type="submit" className="primary-btn">Sign Up</button>
         </form>
 
-        <p style={{ marginTop: "10px" }}>
+        <p className="auth-footer">
           Already have an account? <Link to="/login">Login</Link>
         </p>
       </div>

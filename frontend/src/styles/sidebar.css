@@ -1,0 +1,138 @@
+/* === SIDEBAR DESIGN — MATCHED TO DASHBOARD THEME === */
+
+.sidebar {
+  width: 250px;
+  background: var(--card-bg);
+  border-right: 1px solid var(--border-color);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background 0.3s ease, color 0.3s ease;
+  padding-top: 1rem;
+}
+
+/* === PROFILE SECTION === */
+.profile {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+}
+
+.profile img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.profile img:hover {
+  transform: scale(1.05);
+}
+
+.profile h3 {
+  margin-top: 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.role-label {
+  font-size: 0.85rem;
+  color: var(--muted-text);
+  margin-top: 2px;
+}
+
+/* === MENU SECTION === */
+.menu {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 1rem;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  color: var(--text-color);
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.menu-item:hover {
+  background: var(--accent-gradient);
+  color: #fff;
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.menu-item.active {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+
+/* === LOGOUT SECTION === */
+.logout {
+  padding: 1rem;
+}
+
+.logout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 8px;
+  color: var(--text-color);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 0;
+    padding: 0.5rem;
+  }
+
+  .logout {
+    padding: 0.5rem 1rem;
+  }
+
+  .profile {
+    display: none;
+  }
+}

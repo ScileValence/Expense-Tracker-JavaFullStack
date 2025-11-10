@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
+import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "../styles/dashboard.css";
 
 function decodeToken(token) {
   try {
@@ -34,23 +37,23 @@ export default function BudgetForm() {
         setInfo(res.data || { month, limit: 0, spent: 0 });
         setLimit(res.data?.limit ?? "");
       })
-      .catch((err) => console.error("❌ Error fetching budget:", err));
+      .catch(() => toast.error("Failed to fetch budget data"));
   };
 
   const submit = (e) => {
     e.preventDefault();
     const payload = {
       limitAmount: parseFloat(limit) || 0,
-      month: month, // ✅ Pass selected month in request body
+      month: month,
     };
 
     api
       .post(`/budget`, payload)
       .then(() => {
-        alert(`✅ Budget for ${formattedMonth} saved successfully!`);
+        toast.success("Budget saved successfully");
         fetchBudget();
       })
-      .catch((err) => console.error("❌ Error saving budget:", err));
+      .catch(() => toast.error("Error saving budget"));
   };
 
   const formattedMonth = new Date(`${month}-01`).toLocaleString("default", {
@@ -59,164 +62,94 @@ export default function BudgetForm() {
   });
 
   return (
-    <div className="container fade-in">
-      <div className="card" style={{ animation: "fadeIn 0.4s ease-in" }}>
-        {/* Header */}
-        <div className="header" style={{ marginBottom: "1rem" }}>
-          <h2 style={{ color: "var(--text-color)" }}>Set Monthly Budget</h2>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button
-              type="button"
-              onClick={() => navigate("/dashboard")}
-              style={{
-                background: "var(--card-bg)",
-                color: "var(--text-color)",
-                border: "1px solid var(--border-color)",
-                padding: "6px 12px",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
-            >
-              ← Back
-            </button>
-          </div>
+    <div className="dashboard-layout">
+      <Sidebar />
+
+      <div className="dashboard-content add-expense-container fade-in">
+        <div className="back-btn-container">
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="theme-btn small-btn"
+          >
+            ← Back
+          </button>
         </div>
 
-        {/* Month Selector */}
-        <div style={{ marginBottom: "1rem" }}>
-          <label className="small" style={{ display: "block", marginBottom: 6 }}>
-            Select Month
-          </label>
-          <input
-            type="month"
-            value={month}
-            onChange={(e) => {
-              const selected = e.target.value;
-              setMonth(selected);
-              localStorage.setItem("selectedMonth", selected);
-            }}
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid var(--border-color)",
-              background: "var(--card-bg)",
-              color: "var(--text-color)",
-            }}
-          />
-          <div className="small" style={{ marginTop: "6px" }}>
-            📅 Selected month: <strong>{formattedMonth}</strong>
-          </div>
+        <div className="add-expense-header">
+          <h2>Set Monthly Budget</h2>
+          <p className="small">Manage your spending goals for {formattedMonth}</p>
         </div>
 
-        {/* Form Section */}
-        <form
-          onSubmit={submit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            marginTop: "0.5rem",
-          }}
-        >
-          <div>
-            <label style={{ display: "block", fontWeight: 600 }}>
-              Budget Limit (₹)
-            </label>
-            <input
-              type="number"
-              value={limit}
-              onChange={(e) => setLimit(e.target.value)}
-              placeholder={
-                info.limit ? `Current: ₹${info.limit}` : "Enter budget limit"
-              }
-              required
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid var(--border-color)",
-                background: "var(--card-bg)",
-                color: "var(--text-color)",
-                transition: "border-color 0.3s ease",
-              }}
-              onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
-              onBlur={(e) => (e.target.style.borderColor = "var(--border-color)")}
-            />
-          </div>
+        <div className="analytics-card add-expense-card" style={{ maxWidth: 720 }}>
+          <h3 className="form-title">Budget Details</h3>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "12px",
-              marginTop: "10px",
-              justifyContent: "flex-end",
-            }}
-          >
-            <button
-              type="submit"
-              style={{
-                background: "var(--accent)",
-                color: "#fff",
-                border: "none",
-                padding: "10px 20px",
-                borderRadius: "8px",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "background-color 0.3s ease",
-              }}
-              onMouseEnter={(e) => (e.target.style.background = "#3b3eff")}
-              onMouseLeave={(e) => (e.target.style.background = "var(--accent)")}
-            >
-              Save Budget
-            </button>
-
-            <button
-              type="button"
-              onClick={() => navigate("/dashboard")}
-              style={{
-                background: "var(--border-color)",
-                color: "var(--text-color)",
-                border: "none",
-                padding: "10px 20px",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-
-        {/* Budget Overview Card */}
-        {info.limit > 0 && (
-          <div
-            style={{
-              marginTop: "2rem",
-              background: "var(--bg-color)",
-              padding: "1rem",
-              borderRadius: "10px",
-              border: "1px solid var(--border-color)",
-            }}
-          >
-            <div
-              style={{
-                fontWeight: 600,
-                marginBottom: "0.5rem",
-                color: "var(--text-color)",
-              }}
-            >
-              Current Budget Overview
+          <form onSubmit={submit} className="add-expense-form">
+            <div className="form-group">
+              <label>Select Month</label>
+              <input
+                type="month"
+                value={month}
+                onChange={(e) => {
+                  const selected = e.target.value;
+                  setMonth(selected);
+                  localStorage.setItem("selectedMonth", selected);
+                }}
+                required
+              />
+              <div className="small" style={{ marginTop: "6px" }}>
+                Selected month: <strong>{formattedMonth}</strong>
+              </div>
             </div>
-            <div className="small">
-              💰 Limit: ₹{info.limit}
-              <br />
-              💸 Spent: ₹{info.spent}
-              <br />
-              🟢 Remaining: ₹{(info.limit - info.spent).toFixed(2)}
+
+            <div className="form-group">
+              <label>Budget Limit (₹)</label>
+              <input
+                type="number"
+                value={limit}
+                onChange={(e) => setLimit(e.target.value)}
+                placeholder={info.limit ? `Current: ₹${info.limit}` : "Enter budget limit"}
+                required
+              />
             </div>
-          </div>
-        )}
+
+            <div className="form-actions">
+              <button type="submit" className="theme-btn small-btn">
+                Save Budget
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/dashboard")}
+                className="cancel-btn small-btn"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+
+          {info.limit > 0 && (
+            <div className="budget-summary-card" style={{ marginTop: 18 }}>
+              <h4>Current Budget Overview</h4>
+              <div className="small" style={{ marginTop: 6 }}>
+                Limit: ₹{info.limit} • Spent: ₹{info.spent} • Remaining: ₹{(info.limit - info.spent).toFixed(2)}
+              </div>
+
+              <div className="progress-bar" style={{ marginTop: 12 }}>
+                <div
+                  className="progress-fill"
+                  style={{
+                    width: `${Math.min((info.spent / info.limit) * 100, 100)}%`,
+                    background:
+                      info.spent / info.limit > 0.9
+                        ? "#d9534f"
+                        : info.spent / info.limit > 0.7
+                        ? "#f0ad4e"
+                        : "#28a745",
+                  }}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

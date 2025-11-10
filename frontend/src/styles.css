@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Inter", "Segoe UI", sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 :root {
@@ -12,55 +13,184 @@
   --text-color: #222;
   --accent: #000dff;
   --accent-gradient: linear-gradient(135deg, #6b73ff, #000dff);
-  --border-color: #ccc;
-  --shadow: rgba(0, 0, 0, 0.1);
-  --muted-text: #555;
+  --border-color: #e0e0e0;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --muted-text: #666;
+  --radius: 12px;
 }
 
 /* === Dark Mode Variables === */
 [data-theme="dark"] {
   --bg-color: #121212;
-  --card-bg: #1e1e1e;
+  --card-bg: #1c1c1c;
   --text-color: #eaeaea;
   --accent: #6b73ff;
   --accent-gradient: linear-gradient(135deg, #6b73ff, #3b3eff);
-  --border-color: #333;
+  --border-color: #2d2d2d;
   --shadow: rgba(255, 255, 255, 0.05);
-  --muted-text: #aaa;
+  --muted-text: #999;
 }
 
-/* === Global Styles === */
+/* === Base === */
 body {
-  background-color: var(--bg-color);
+  background: var(--bg-color);
   color: var(--text-color);
-  line-height: 1.5;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
-/* === Auth Pages (Login / Signup) === */
+/* === Scrollbar === */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 6px;
+}
+
+/* === Containers & Cards === */
+.container {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 20px var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px var(--shadow);
+}
+
+/* === Headers & Titles === */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.header h2 {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.small {
+  font-size: 0.9rem;
+  color: var(--muted-text);
+}
+
+/* === Buttons === */
+button,
+.btn {
+  border: none;
+  outline: none;
+  background: var(--accent-gradient);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+button:hover,
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Outline Variant */
+.btn-outline {
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* Danger Variant */
+.btn-danger {
+  background: #d9534f;
+}
+
+/* === Inputs === */
+input,
+select {
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* === Tables === */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.table th {
+  background-color: rgba(0, 0, 0, 0.03);
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.table tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* === Auth Pages === */
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background: var(--accent-gradient);
-  transition: background 0.4s ease;
 }
 
 .auth-card {
-  background-color: var(--card-bg);
+  background: var(--card-bg);
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: var(--radius);
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 8px 20px var(--shadow);
+  box-shadow: 0 8px 22px var(--shadow);
   text-align: center;
-  animation: fadeIn 0.4s ease-in;
+  animation: fadeIn 0.4s ease;
 }
 
 .auth-card h2 {
   margin-bottom: 1.2rem;
-  color: var(--text-color);
 }
 
 .auth-card form {
@@ -75,29 +205,24 @@ body {
   border: 1px solid var(--border-color);
   background: var(--card-bg);
   color: var(--text-color);
-  font-size: 1rem;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .auth-card input:focus {
   border-color: var(--accent);
-  outline: none;
 }
 
 .auth-card button {
-  background-color: var(--accent);
-  color: white;
-  border: none;
+  background: var(--accent-gradient);
+  color: #fff;
+  font-weight: 600;
   border-radius: 8px;
   padding: 0.8rem;
-  font-size: 1rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .auth-card button:hover {
-  background-color: #3b3eff;
+  opacity: 0.9;
 }
 
 .auth-card p {
@@ -111,120 +236,31 @@ body {
   font-weight: 600;
 }
 
-.auth-card a:hover {
-  text-decoration: underline;
-}
-
-/* === Dashboard === */
-.container {
-  padding: 2rem;
-  max-width: 1100px;
-  margin: auto;
-}
-
-.card {
-  background-color: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: 0 6px 18px var(--shadow);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.header {
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header h2 {
-  color: var(--text-color);
-}
-
-.nav a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.nav a:hover {
-  text-decoration: underline;
-}
-
-/* === Theme Toggle Button === */
+/* === Theme Toggle === */
 .theme-toggle {
-  border: none;
+  border: 1px solid var(--border-color);
   background: var(--card-bg);
   color: var(--text-color);
   padding: 6px 10px;
   border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 2px 5px var(--shadow);
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .theme-toggle:hover {
-  background-color: var(--accent);
+  background: var(--accent);
   color: #fff;
-}
-
-/* === Tables === */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 0.5rem;
-}
-
-.table th,
-.table td {
-  padding: 10px;
-  border-bottom: 1px solid var(--border-color);
-  text-align: left;
-}
-
-.table th {
-  background-color: rgba(0, 0, 0, 0.03);
-  font-weight: 600;
-  color: var(--text-color);
-}
-
-/* === Utility === */
-.small {
-  font-size: 0.9rem;
-  color: var(--muted-text);
 }
 
 /* === Animations === */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* === Responsive === */
 @media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
-
-  .auth-card {
-    padding: 1.5rem;
-    max-width: 90%;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+  .container { padding: 1rem; }
+  .card { padding: 1rem; }
+  .header { flex-direction: column; align-items: flex-start; }
 }

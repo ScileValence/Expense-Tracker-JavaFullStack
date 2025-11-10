@@ -1,56 +1,97 @@
-import React, { useEffect, useState, useCallback } from "react";
-import api from "../api/axios";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import api from "../api";
+import Sidebar from "./Sidebar";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "../styles/dashboard.css";
 
-export default function ListExpenses() {
+function decodeToken(token) {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch {
+    return null;
+  }
+}
+
+export default function ExpenseList() {
+  const navigate = useNavigate();
   const [expenses, setExpenses] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [editId, setEditId] = useState(null);
+  const [editForm, setEditForm] = useState({
+    amount: "",
+    description: "",
+    date: "",
+    categoryId: "",
+  });
   const [month, setMonth] = useState(
     localStorage.getItem("selectedMonth") || new Date().toISOString().slice(0, 7)
   );
-  const navigate = useNavigate();
 
-  // ✅ Fetch expenses filtered by month
-  const fetchExpenses = useCallback(async (forMonth) => {
-    try {
-      const res = await api.get(`/expenses?month=${forMonth}`);
-      setExpenses(res.data || []);
-    } catch (err) {
-      console.error("❌ Error fetching expenses:", err);
-      if (err.response?.status === 401) {
-        localStorage.removeItem("token");
-        navigate("/login");
-      }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token || !decodeToken(token)) {
+      navigate("/login");
+      return;
     }
-  }, [navigate]);
+    fetchExpenses();
+    fetchCategories();
+  }, [month, navigate]);
 
-  useEffect(() => {
-    fetchExpenses(month);
-  }, [month, fetchExpenses]);
-
-  // Sync with global month (if changed in other tab or dashboard)
-  useEffect(() => {
-    const onStorage = (e) => {
-      if (e.key === "selectedMonth" && e.newValue) setMonth(e.newValue);
-    };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, []);
-
-  const handleMonthChange = (e) => {
-    const newMonth = e.target.value;
-    setMonth(newMonth);
-    localStorage.setItem("selectedMonth", newMonth);
-    fetchExpenses(newMonth);
+  const fetchExpenses = () => {
+    api
+      .get(`/expenses?month=${month}`)
+      .then((res) => setExpenses(res.data || []))
+      .catch(() => toast.error("Failed to load expenses."));
   };
 
-  const deleteExpense = async (id) => {
-    if (!window.confirm("Delete this expense?")) return;
-    try {
-      await api.delete(`/expenses/${id}`);
-      fetchExpenses(month);
-    } catch (err) {
-      console.error("❌ Error deleting expense:", err);
-    }
+  const fetchCategories = () => {
+    api
+      .get("/categories")
+      .then((res) => setCategories(res.data || []))
+      .catch(() => toast.error("Failed to load categories."));
+  };
+
+  const handleEditClick = (expense) => {
+    setEditId(expense.id);
+    setEditForm({
+      amount: expense.amount,
+      description: expense.description,
+      date: expense.date,
+      categoryId: expense.category?.id || "",
+    });
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const saveEdit = (id) => {
+    api
+      .put(`/expenses/${id}`, {
+        amount: parseFloat(editForm.amount),
+        description: editForm.description,
+        date: editForm.date,
+        categoryId: editForm.categoryId ? parseInt(editForm.categoryId) : null,
+      })
+      .then(() => {
+        toast.success("Expense updated successfully!");
+        setEditId(null);
+        fetchExpenses();
+      })
+      .catch(() => toast.error("Failed to update expense."));
+  };
+
+  const deleteExpense = (id) => {
+    if (!window.confirm("Are you sure you want to delete this expense?")) return;
+    api
+      .delete(`/expenses/${id}`)
+      .then(() => {
+        toast.info("Expense deleted successfully!");
+        fetchExpenses();
+      })
+      .catch(() => toast.error("Error deleting expense."));
   };
 
   const formattedMonth = new Date(`${month}-01`).toLocaleString("default", {
@@ -59,105 +100,165 @@ export default function ListExpenses() {
   });
 
   return (
-    <div className="container fade-in">
-      <div className="card">
+    <div className="dashboard-layout">
+      <Sidebar />
+
+      <div className="dashboard-content fade-in">
         {/* Header */}
-        <div className="header" style={{ justifyContent: "space-between", alignItems: "center" }}>
-          <h2>Expenses — {formattedMonth}</h2>
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <label className="small">
-              Select Month:{" "}
-              <input
-                type="month"
-                value={month}
-                onChange={handleMonthChange}
-                style={{
-                  padding: "6px",
-                  borderRadius: "6px",
-                  border: "1px solid var(--border-color)",
-                  background: "var(--card-bg)",
-                  color: "var(--text-color)",
-                }}
-              />
-            </label>
-            <Link to="/add" className="btn btn-primary">
-              + Add
-            </Link>
-            <button
-              onClick={() => navigate("/dashboard")}
-              style={{
-                background: "var(--border-color)",
-                color: "var(--text-color)",
-                border: "none",
-                padding: "6px 12px",
-                borderRadius: "6px",
-                cursor: "pointer",
+        <div className="dash-header fade-in">
+          <div>
+            <h2>Expense List</h2>
+            <p className="small">📅 Showing expenses for {formattedMonth}</p>
+          </div>
+          <div className="dash-controls">
+            <input
+              type="month"
+              value={month}
+              onChange={(e) => {
+                const selected = e.target.value;
+                setMonth(selected);
+                localStorage.setItem("selectedMonth", selected);
               }}
+              className="month-selector"
+            />
+            <button
+              className="theme-btn small-btn"
+              onClick={() => navigate("/add")}
             >
-              ← Back
+              ➕ Add Expense
             </button>
           </div>
         </div>
 
-        {/* Table */}
-        {expenses.length === 0 ? (
-          <p className="small" style={{ marginTop: 12 }}>
-            No expenses recorded for this month.
-          </p>
-        ) : (
-          <table className="table" style={{ marginTop: "1rem" }}>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Amount (₹)</th>
-                <th>Category</th>
-                <th>Date</th>
-                <th>Description</th>
-                <th style={{ textAlign: "center" }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {expenses.map((e) => (
-                <tr key={e.id}>
-                  <td>{e.id}</td>
-                  <td>₹{e.amount}</td>
-                  <td>{e.category ? e.category.name : "N/A"}</td>
-                  <td>{e.date}</td>
-                  <td>{e.description}</td>
-                  <td style={{ textAlign: "center" }}>
-                    <button
-                      onClick={() => navigate(`/edit/${e.id}`)}
-                      style={{
-                        marginRight: "8px",
-                        background: "var(--accent)",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "4px",
-                        padding: "4px 10px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      ✏️ Edit
-                    </button>
-                    <button
-                      onClick={() => deleteExpense(e.id)}
-                      style={{
-                        background: "#d9534f",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "4px",
-                        padding: "4px 10px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      🗑 Delete
-                    </button>
-                  </td>
+        {/* Expense Table */}
+        <div className="analytics-card fade-in">
+          {expenses.length === 0 ? (
+            <p className="small" style={{ textAlign: "center", marginTop: "1rem" }}>
+              No expenses found for this month.
+            </p>
+          ) : (
+            <table className="table fade-in">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Amount (₹)</th>
+                  <th>Category</th>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+              </thead>
+              <tbody>
+                {expenses.map((expense) => (
+                  <tr
+                    key={expense.id}
+                    className="fade-in"
+                    style={{ transition: "all 0.3s ease" }}
+                  >
+                    <td>{expense.id}</td>
+                    <td>
+                      {editId === expense.id ? (
+                        <input
+                          type="number"
+                          name="amount"
+                          value={editForm.amount}
+                          onChange={handleEditChange}
+                          className="edit-input"
+                        />
+                      ) : (
+                        `₹${expense.amount}`
+                      )}
+                    </td>
+
+                    <td>
+                      {editId === expense.id ? (
+                        <select
+                          name="categoryId"
+                          value={editForm.categoryId}
+                          onChange={handleEditChange}
+                          className="edit-select"
+                        >
+                          <option value="">-- Select --</option>
+                          {categories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        expense.category?.name || "N/A"
+                      )}
+                    </td>
+
+                    <td>
+                      {editId === expense.id ? (
+                        <input
+                          type="date"
+                          name="date"
+                          value={editForm.date}
+                          onChange={handleEditChange}
+                          className="edit-input"
+                        />
+                      ) : (
+                        expense.date
+                      )}
+                    </td>
+
+                    <td>
+                      {editId === expense.id ? (
+                        <input
+                          type="text"
+                          name="description"
+                          value={editForm.description}
+                          onChange={handleEditChange}
+                          className="edit-input"
+                        />
+                      ) : (
+                        expense.description
+                      )}
+                    </td>
+
+                    <td>
+                      <div className="action-buttons">
+                        {editId === expense.id ? (
+                          <>
+                            <button
+                              onClick={() => saveEdit(expense.id)}
+                              className="theme-btn small-btn"
+                            >
+                              Save
+                            </button>
+                            <button
+                              onClick={() => setEditId(null)}
+                              className="cancel-btn small-btn"
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => handleEditClick(expense)}
+                              className="theme-btn small-btn"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => deleteExpense(expense.id)}
+                              className="delete-btn small-btn"
+                            >
+                              Delete
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );

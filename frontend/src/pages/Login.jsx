@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import api from "../api/axios";
 import { useNavigate, Link } from "react-router-dom";
+import "../styles/auth.css";
+import dunesImg from "../assets/dunes.jpg"; // ✅ use the generated image
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -19,10 +21,20 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2>Login</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="auth-layout">
+      <div className="auth-image">
+        <img src={dunesImg} alt="Background dunes" />
+        <div className="overlay-text">
+          <h1>Phainance</h1>
+          <p>Track. Save. Grow.</p>
+        </div>
+      </div>
+
+      <div className="auth-form-card">
+        <h2>Welcome Back</h2>
+        <p className="small-text">Login to continue managing your expenses</p>
+        {error && <p className="error-msg">{error}</p>}
+
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -38,9 +50,10 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Login</button>
+          <button type="submit" className="primary-btn">Sign In</button>
         </form>
-        <p style={{ marginTop: "10px" }}>
+
+        <p className="auth-footer">
           Don’t have an account? <Link to="/signup">Sign up</Link>
         </p>
       </div>

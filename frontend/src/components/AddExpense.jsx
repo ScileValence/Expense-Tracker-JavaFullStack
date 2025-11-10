@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "../styles/dashboard.css";
 
 function decodeToken(token) {
   try {
@@ -11,13 +14,14 @@ function decodeToken(token) {
 }
 
 export default function AddExpense() {
-  const [amount, setAmount] = useState("");
-  const [description, setDescription] = useState("");
-  const [categoryId, setCategoryId] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const editId = searchParams.get("id");
+  const [categories, setCategories] = useState([]);
+  const [form, setForm] = useState({
+    amount: "",
+    description: "",
+    date: new Date().toISOString().split("T")[0],
+    categoryId: "",
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -25,182 +29,132 @@ export default function AddExpense() {
       navigate("/login");
       return;
     }
+    fetchCategories();
+  }, [navigate]);
 
-    api.get("/categories")
-      .then((res) => setCategories(res.data))
-      .catch((err) => console.error(err));
-
-    if (editId) {
-      api.get("/expenses")
-        .then((res) => {
-          const found = res.data.find((x) => String(x.id) === String(editId));
-          if (found) {
-            setAmount(found.amount || "");
-            setDescription(found.description || "");
-            setCategoryId(found.category ? found.category.id : "");
-          }
-        })
-        .catch((err) => console.error(err));
-    }
-  }, [editId, navigate]);
-
-  const submit = (e) => {
-    e.preventDefault();
-    const payload = {
-      amount: parseFloat(amount),
-      description,
-      categoryId: categoryId ? parseInt(categoryId) : null,
-    };
-
-    const request = editId
-      ? api.put(`/expenses/${editId}`, payload)
-      : api.post("/expenses", payload);
-
-    request.then(() => navigate("/dashboard")).catch((err) => console.error(err));
+  const fetchCategories = () => {
+    api
+      .get("/categories")
+      .then((res) => setCategories(res.data || []))
+      .catch(() => toast.error("Failed to load categories."));
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const submitExpense = (e) => {
+    e.preventDefault();
+    const payload = {
+      amount: parseFloat(form.amount) || 0,
+      description: form.description.trim(),
+      date: form.date,
+      categoryId: form.categoryId ? parseInt(form.categoryId) : null,
+    };
+
+    api
+      .post("/expenses", payload)
+      .then(() => {
+        toast.success("Expense added successfully");
+        navigate("/list");
+      })
+      .catch(() => toast.error("Failed to add expense"));
+  };
+
+  const formattedMonth = new Date(`${(localStorage.getItem("selectedMonth") || new Date().toISOString().slice(0,7))}-01`)
+    .toLocaleString("default", { month: "long", year: "numeric" });
+
   return (
-    <div className="container fade-in">
-      <div className="card" style={{ animation: "fadeIn 0.4s ease-in" }}>
-        {/* Header */}
-        <div className="header" style={{ marginBottom: "1rem" }}>
-          <h2 style={{ color: "var(--text-color)" }}>
-            {editId ? "Edit Expense" : "Add New Expense"}
-          </h2>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button
-              type="button"
-              onClick={() => navigate("/dashboard")}
-              style={{
-                background: "var(--card-bg)",
-                color: "var(--text-color)",
-                border: "1px solid var(--border-color)",
-                padding: "6px 12px",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
-            >
-              ← Back
-            </button>
-          </div>
+    <div className="dashboard-layout">
+      <Sidebar />
+
+      <div className="dashboard-content add-expense-container fade-in">
+        <div className="back-btn-container">
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="theme-btn small-btn"
+          >
+            ← Back
+          </button>
         </div>
 
-        {/* Form Section */}
-        <form
-          onSubmit={submit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            marginTop: "0.5rem",
-          }}
-        >
-          <div>
-            <label style={{ display: "block", fontWeight: 600 }}>Amount (₹)</label>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="Enter expense amount"
-              required
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid var(--border-color)",
-                background: "var(--card-bg)",
-                color: "var(--text-color)",
-                transition: "border-color 0.3s ease",
-              }}
-              onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
-              onBlur={(e) => (e.target.style.borderColor = "var(--border-color)")}
-            />
-          </div>
+        <div className="add-expense-header">
+          <h2>Add New Expense</h2>
+          <p className="small">Track your spending for {formattedMonth}</p>
+        </div>
 
-          <div>
-            <label style={{ display: "block", fontWeight: 600 }}>Category</label>
-            <select
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-              required
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid var(--border-color)",
-                background: "var(--card-bg)",
-                color: "var(--text-color)",
-              }}
-            >
-              <option value="">Select category</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="analytics-card add-expense-card">
+          <h3 className="form-title">Expense Details</h3>
 
-          <div>
-            <label style={{ display: "block", fontWeight: 600 }}>Description</label>
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Optional description"
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid var(--border-color)",
-                background: "var(--card-bg)",
-                color: "var(--text-color)",
-              }}
-            />
-          </div>
+          <form onSubmit={submitExpense} className="add-expense-form">
+            <div className="form-group">
+              <label>Amount (₹)</label>
+              <input
+                type="number"
+                step="0.01"
+                name="amount"
+                value={form.amount}
+                onChange={handleChange}
+                required
+                placeholder="Enter expense amount"
+              />
+            </div>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "12px",
-              marginTop: "10px",
-              justifyContent: "flex-end",
-            }}
-          >
-            <button
-              type="submit"
-              style={{
-                background: "var(--accent)",
-                color: "#fff",
-                border: "none",
-                padding: "10px 20px",
-                borderRadius: "8px",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "background-color 0.3s ease",
-              }}
-              onMouseEnter={(e) => (e.target.style.background = "#3b3eff")}
-              onMouseLeave={(e) => (e.target.style.background = "var(--accent)")}
-            >
-              {editId ? "Update Expense" : "Add Expense"}
-            </button>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                required
+                placeholder="E.g., Grocery shopping"
+              />
+            </div>
 
-            <button
-              type="button"
-              onClick={() => navigate("/dashboard")}
-              style={{
-                background: "var(--border-color)",
-                color: "var(--text-color)",
-                border: "none",
-                padding: "10px 20px",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+            <div className="form-group">
+              <label>Date</label>
+              <input
+                type="date"
+                name="date"
+                value={form.date}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Category</label>
+              <select
+                name="categoryId"
+                value={form.categoryId}
+                onChange={handleChange}
+                required
+              >
+                <option value="">-- Select Category --</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-actions">
+              <button type="submit" className="theme-btn small-btn">
+                Add Expense
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/list")}
+                className="cancel-btn small-btn"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

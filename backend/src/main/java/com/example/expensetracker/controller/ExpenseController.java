@@ -40,15 +40,17 @@ public class ExpenseController {
         this.userRepository = userRepository;
     }
 
+    // ✅ Extract user from JWT in Authorization header
     private User getUserFromRequest(HttpServletRequest request) {
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) return null;
+
         String token = authHeader.substring(7);
         String username = jwtService.extractUsername(token);
         return userRepository.findByUsername(username).orElse(null);
     }
 
-    // ✅ Get all expenses for a specific month (or current if not provided)
+    // ✅ Get all expenses for a specific month (or current month by default)
     @GetMapping
     public List<Expense> getExpenses(
             @RequestParam(required = false) String month,
@@ -70,6 +72,7 @@ public class ExpenseController {
         return expenseService.allForMonth(user, start, end);
     }
 
+    // ✅ Create a new expense
     @PostMapping
     public Expense create(@RequestBody ExpenseDTO dto, HttpServletRequest request) {
         User user = getUserFromRequest(request);
@@ -88,8 +91,13 @@ public class ExpenseController {
         return expenseService.add(e);
     }
 
+    // ✅ Update an existing expense
     @PutMapping("/{id}")
-    public Expense update(@PathVariable Long id, @RequestBody ExpenseDTO dto, HttpServletRequest request) {
+    public Expense update(
+            @PathVariable Long id,
+            @RequestBody ExpenseDTO dto,
+            HttpServletRequest request
+    ) {
         User user = getUserFromRequest(request);
         if (user == null) return null;
 
@@ -97,7 +105,7 @@ public class ExpenseController {
         if (oe.isEmpty()) return null;
 
         Expense e = oe.get();
-        if (!e.getUser().getId().equals(user.getId())) return null; // security
+        if (!e.getUser().getId().equals(user.getId())) return null; // security check
 
         e.setAmount(dto.getAmount());
         e.setDescription(dto.getDescription());
@@ -112,6 +120,7 @@ public class ExpenseController {
         return expenseService.update(e);
     }
 
+    // ✅ Delete an expense
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id, HttpServletRequest request) {
         User user = getUserFromRequest(request);
@@ -123,7 +132,7 @@ public class ExpenseController {
         }
     }
 
-    // ✅ DTO class
+    // ✅ DTO class for request body mapping
     public static class ExpenseDTO {
         private Double amount;
         private String description;
