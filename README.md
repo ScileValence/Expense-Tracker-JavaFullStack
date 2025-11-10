@@ -60,6 +60,27 @@
 
 ---
 
+## 📸 Screenshots  
+
+### 🏠 Dashboard  
+![Dashboard](https://github.com/user-attachments/assets/89de6b80-ae86-4987-bf95-99828e35318b)
+
+### 💰 Add Expense  
+![Add Expense](https://github.com/user-attachments/assets/a8d57ca2-0c78-41c9-9dd0-ed257c298e22)
+
+### 📊 Analytics  
+![Analytics](https://github.com/user-attachments/assets/27a55afe-9eb8-4135-9070-be640eb56de0)
+
+### 📆 Budget Tracker  
+![Budget Tracker](https://github.com/user-attachments/assets/a8d13d48-e4b0-4018-95df-d535ad2ee5e7)
+
+### 🔐 Login  
+![Login](https://github.com/user-attachments/assets/a598fabe-28a7-436a-aad3-7b7355ad9537)
+
+### 📝 Signup  
+![Signup](https://github.com/user-attachments/assets/6b06afd0-be56-4e85-b650-cf745d0ccdf8)
+
+
 ## ⚙️ Installation Guide  
 
 ### 🧩 Backend (Spring Boot)
@@ -139,30 +160,6 @@ Release Date: November 10, 2025
 📬 Email notifications for overspending
 
 📱 Enhanced mobile UI
-
-## 📸 Screenshots  
-
-### 🏠 Dashboard  
-![Dashboard](https://github.com/user-attachments/assets/89de6b80-ae86-4987-bf95-99828e35318b)
-
-### 💰 Add Expense  
-![Add Expense](https://github.com/user-attachments/assets/a8d57ca2-0c78-41c9-9dd0-ed257c298e22)
-
-### 📊 Analytics  
-![Analytics](https://github.com/user-attachments/assets/27a55afe-9eb8-4135-9070-be640eb56de0)
-
-### 📆 Budget Tracker  
-![Budget Tracker](https://github.com/user-attachments/assets/a8d13d48-e4b0-4018-95df-d535ad2ee5e7)
-
-### 🔐 Login  
-![Login](https://github.com/user-attachments/assets/a598fabe-28a7-436a-aad3-7b7355ad9537)
-
-### 📝 Signup  
-![Signup](https://github.com/user-attachments/assets/6b06afd0-be56-4e85-b650-cf745d0ccdf8)
-
-
-
-
 
 👨‍💻 Author
 Aashirwad Pradhan
