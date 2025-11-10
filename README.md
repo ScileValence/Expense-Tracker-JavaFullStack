@@ -144,6 +144,12 @@ Release Date: November 10, 2025
 Below are sample previews. Replace with your own screenshots when deploying.
 <img width="2774" height="1482" alt="image_2025-11-10_143629676" src="https://github.com/user-attachments/assets/0848c92f-d494-4830-8908-4c03f9c26464" />
 <img width="2780" height="1477" alt="image_2025-11-10_144050361" src="https://github.com/user-attachments/assets/5590e000-c96b-4101-a5b0-3c6bfe560efe" />
+<img width="2788" height="1490" alt="login" src="https://github.com/user-attachments/assets/85573156-6139-4cb4-b5e2-a649deaa1d39" />
+<img width="2780" height="1484" alt="signup" src="https://github.com/user-attachments/assets/ee9e2a93-94f1-4390-93a7-f13fb7b0bcde" />
+![dashboard](https://github.com/user-attachments/assets/48a92308-dbe6-4393-97b4-3f04b1b8b37a)
+<img width="2770" height="1460" alt="all" src="https://github.com/user-attachments/assets/06382216-0348-4b08-88ea-6b3e9e74d2ca" />
+<img width="2720" height="1456" alt="add" src="https://github.com/user-attachments/assets/d596e1b6-e0e7-4192-bca3-e5e9fce5cbb5" />
+<img width="2712" height="1442" alt="budget" src="https://github.com/user-attachments/assets/9868b44d-9e81-4ae7-a502-d54b9093b7ae" />
 
 Dashboard	Add Expense	Analytics
 
