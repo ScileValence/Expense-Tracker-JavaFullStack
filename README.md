@@ -130,13 +130,9 @@ Release Date: November 10, 2025
 
 🧠 Future Enhancements
 📤 Export reports (CSV / PDF)
-
 💰 Category-based budget limits
-
 🧮 AI-driven spending insights
-
 📬 Email alerts for overspending
-
 📱 Optimized mobile UI
 
 📸 Screenshots
