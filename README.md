@@ -162,11 +162,3 @@ This project is licensed under the MIT License.
 You’re free to use, modify, and distribute this software with attribution.
 
 💜 Phainance — Because managing your money should feel effortless.
-
-yaml
-Copy code
-
----
-
-Would you like me to also generate a matching **`CHANGELOG.md`** file for version `v1.6.0` (summarizing the improvements in dashboard layout, notifications, dune UI, etc.)?  
-That’ll go perfectly alongside this `README.md`.
