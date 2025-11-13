@@ -91,17 +91,6 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 server.port=8080
 
-jwt.secret=U3VwZXJTZWNyZXRLZXlTdHJpbmctMzJCeXRlcwAAAAAAAAAA
-jwt.expiration=86400000
-🧠 API Summary
-Endpoint	Method	Description
-/api/auth/register	POST	Register a new user
-/api/auth/login	POST	Authenticate user & return JWT
-/api/expenses	GET / POST / PUT / DELETE	Manage expenses
-/api/categories	GET	Fetch all categories
-/api/budget	GET / POST / PUT	Manage monthly budget
-/api/analytics/*	GET	Retrieve analytics data
-
 📊 Dashboard Overview
 Section	Description
 Overview Cards	Show total spent, budget, and remaining
